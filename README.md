@@ -1,2 +1,2 @@
-# responsive-web
-responsive web 복습
+#javascript 200제
+10.06 시작
