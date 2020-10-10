@@ -217,12 +217,148 @@ console.log(user[SymbolProperties[0]]);
     // argument 를 배열로 바꾸기위해 slice를 호출 call
     console.log(newArr);
     console.log(newArr.indexOf('b'));
-    console.log(arguments.indexOf('b'));
+    // console.log(arguments.indexOf('b'));
     // arguments는 배열이 아님 에러남
   }
   testArg('a', 'b');
 }
 
+console.clear();
+
 {
+  // 함수 기본 매개 변수 처리
+  function drawChart(width = 200, height = 400){
+    // 넓이와 높이에 아무 인자가 들어오지 않을 경우 기본 으로 할당될 값지정
+    console.log(`${width} x ${height}를 그립니다.`);
+  }
+  drawChart(100);
+  // 인자로 100 전달
+  drawChart();
+
+  function drawChart2(width = 200, height = width / 2){
+    // 넓이와 높이에 아무 인자가 들어오지 않을 경우 기본 으로 할당될 값지정
+    console.log(`${width} x ${height}를 그립니다.`);
+  }
+  drawChart2(300);
+  // 인자로 100 전달
+  drawChart2();
+}
+
+{
+  // 함수 나머지 매개변수 이해하기
+
+  function sum(...arg) {
+    let total = 0; 
+    for (let i = 0; i < arg.length; i++) {
+      total += arg[i];
+    }
+    console.log(arg.indexOf(1));
+    return total;
+  }
+console.log(sum(1,2,3));
+
+// 1,2,3 은 arg의 배열이 되면서 total변수값과 합쳐짐
+
+
+function sum2(a,b,...others){
+  let total = a + b;
+
+  for(let i = 0; i < others.length; i++) {
+    total += others[i];
+  }
+  return total;
+
+}
+console.log(sum2(1,2));
+console.log(sum2(1,2,3,4));
+//a, b의 매개 변수를 가지고 있음 
+// 함수 호출시 a b에 인자를 전달 이때 others는 빈배열이 됨
+// 더많은 인자 전달시 a b에는 인자가 전달되고 나머지는 others에 배열의 요소로 전달됨
+}
+
+
+{
+  //스코프 이해하기 -  유효 범위 변수와 매개변수가 어디까지 유효한지 나타낸다 
+
+  let a = 10;
+  console.log(a);
+
+function print() {
+  let b = 20;
+  if(true)  {
+    var c = 30;
+    // let 으로 선언시 if문 밖으로 나가서 호출하면 안불러와짐
+  }
+  console.log(c);
+}
+
+print();
+// console.log(b);
+
+
+// 스코프는 일반적으로 렉시컬 스코프와 다이나믹 스코프가 있는데 자스는 렉시컬  
+// 렉시컬 스코프는 코드가 작성되는 시점에 스코프가 결정됨 정적 스코프
+}
+
+{
+let a = 'global';
+
+function print1 (){
+  console.log(a);
+}
+
+function print2 (){
+  let a = 'local';
+  print1();
+
+}
+
+print1();
+// 함수 블록이 실행됨 함수내부에서 a를 찾을수 없기 때문에 전역변수로 지정된 a의 값을 가져옴
+print2();
+// 함수 내부에서 print1을 호출하고 잇기 때문에 print1의 값을 호출해옴 
+// a 가 print2의 내부에서 가져올지 아니면 print1이 사용한 것을 가져올지에 따라 렉시컬과 다이내믹이 갈림
+// 렉시컬은 코드를 작성하는 시점의 것을 가져옴
+// 그래서 print1을 작성했을때는 이미 할당받은것이 전역변수의a이기때문에 전역변수a를 그대로 가져옴
+
+}
+
+
+{
+ // 함수 호이스팅
+// 함수를 선언하기 전에 호출 가능 끌어올리기
+hello();
+function hello(){
+  console.log('hello');
+
+}
+
+  // hello2();
+  let hello2 = function (){
+    console.log('hello');
+  }
+  // 에러발생 실제로 호이스팅이 이루어졋지만 여기엔 언디파인드가 할당 언디파인드는 호출불가기때문에 에러발생
+
+
+// let 선언문= 변수 선언시 유효범위가 블록이 됨 값을 재할당 가능
+// const 유효범위 블록 재할당 불가능 - 보통 대문자로 작성 변하지 않는 값을 정의하기 때문
+// const로 정의된 객체는 불변객체는 아니다 불변객체는 정의된 후에도 값을 바꿀수없는게 불변객체
+
+const CONST_USER = {name: 'kay', age: 30};
+console.log(CONST_USER.name, CONST_USER.age);
+
+CONST_USER.name = 'bomi';
+CONST_USER.age = 31;
+console.log(CONST_USER.name, CONST_USER.age);
+// 이런식으로 객체 내부에 속성에 담긴 값을 변화시키기 가능
+
+// CONST_USER = {name: 'bobo'};
+// 이런식의 재할당이나 새로운 객체를 추가하거나 바꾸는건 안댐
+
+}
+
+{
+  // 스코프 체인
+
   
 }
