@@ -357,8 +357,126 @@ console.log(CONST_USER.name, CONST_USER.age);
 
 }
 
-{
-  // 스코프 체인
+console.clear();
+{ 
+  // 스코프 체인- 스코프가 연결 되어 잇는것
+  // 실행 컨텍스트와 렉시컬 환경을 알아야함
+  // 샐행 컨텍스트는 코드가 실행되기 위해 팔요한 정보를 가지고 잇다.  실행가능한 코드가 실행될때 생성됨
+  //실행가능한 코드는 전역 코드와 함수코드
+  //전역코드가 먼저 실행됨 전역 컨텍스트를 만들고 전역코드를 순차적으로 평가
+  //함수호출문을 만나면 새로운 실핼컨텍스트가 만들어지면서 함수 실행부의 코드를 순차적 평가
+  //이떼 스택을 이용해 실행 컨텍스트 관리  새로운 컨텍스트가 생성되면 스택에 쌓고 실행중인 코드가 종료되면 스텍에서 제거
 
+  let person = 'kay';
+
+  function print (){
+    let person2 = 'jay';
+
+     function innerPrint (){
+      console.log(person);
+      console.log(person2);
+     }
+
+     innerPrint();
+     console.log('print finished');
+  }
+
+print();
+console.log('finished');
+
+//안쪽부터 출력되는 구조
+
+}
+
+{
+  //클로저 이해하기
+  //클로저란 함수가 정의될때 렉시컬 환경을 기억하는 함수
+function creatCounterCloser (){
+let count = 0;
+  return{
+    increase: function(){
+      count++;
+    },
+    //increase 클로저
+    getCount: function(){
+      return count;
+    }
+    //getCount 클로저
+  };
+}
+
+const counter1 = creatCounterCloser();
+const counter2 = creatCounterCloser();
+
+counter1.increase();
+counter1.increase();
+console.log(`counter1: ${counter1.getCount()}`);
+//counter1.increase();가 두번실행된 것을 기억
+counter2.increase();
+console.log(`counter2: ${counter2.getCount()}`);
+
+}
+
+
+{
+  // 객체 속성 기술자 이해
+   //속성 기술자-- 객체 속성은 자신의 정보를 여기에 가지고 있음 속성기술자는 객체로 표현됨 
+   let user = {
+     name: 'bomi'
+   };
+   let descriptor = Object.getOwnPropertyDescriptor(user, 'name');
+   console.log(descriptor);
+  //  getOwnPropertyDescriptor로 가져올수 있음
+
+  
+// Object.defineProperty로 해당 객체의 속성 정의
+// Object.defineProperty(속성을 정의할 객체, 속성명, 속성기술자)
+// 속성기술자 - value: 값, enumerable: 속성의 나열 가능 여부 (true/false), 
+// writable: 값을 변경할수 있는지, configurable: 속성기술자를 변경할수 있는지.
+let user2 = {};
+Object.defineProperty(user2,"name",{
+  value: 'kay',
+  enumerable: true,
+  configurable: true,
+  writable: false
+});
+console.log(user2.name);
+user2.name = 'bobo';
+console.log(user2.name);
+// writable: false 이기 때문에 뒤에 값을 bobo로 바꿔도 kay가 나옴
+
+
+let user3 = {
+  name: 'jinny',
+  toString(){
+    return this.name;
+  }
+};
+Object.defineProperty(user3, 'toString', {
+  enumerable: false
+});
+// 여기서 toString의 메소드는 enumerable: 속성의 나열 가능 하지 않게 설정해놈 그래서 속성명만 출력됨
+for(let key in user3) {
+  console.log(key);
+}
+//모든 속성에 접근해서 속성이름은 출력하지만 그 안에 나열은 하지 않음
+
+let user4 = {};
+Object.defineProperty(user4, 'name', {
+  value: 'bomi',
+  configurable: false
+});
+
+delete user4.name
+console.log(user4);
+//속성기술자를 변경할수 없게 configurable: false 해놔서 지워지지않고 리턴됨
+Object.defineProperty(user4, 'name', {
+  // writable: true
+});
+//속성변경이 불가능하기때문에 에러뜸
+}
+
+console.clear();
+{
   
 }
