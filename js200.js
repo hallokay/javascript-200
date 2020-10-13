@@ -477,6 +477,190 @@ Object.defineProperty(user4, 'name', {
 }
 
 console.clear();
+
 {
+  //get, set 을 통한 속성 접근관리
+  let user =  {};
+  Object.defineProperty(user,'age',{
+    get: function (){
+      return this._age;
+    },
+    //get 메소드는 속성에 접근할때 호출
+    set: function(age){
+      if(age < 0) {
+        console.error('0보다 작은 값은 올 수 없다.');
+      } else {
+        this._age = age;
+      }
+      //set 은 값을 대입할때 호출
+    },
+    enumerable: true
+  });
+
+  user.age = 10;
+  console.log(user.age);
+  user.age = -1;
+
+  
+  let user2 = {
+    get name(){
+      return this._name;
+    },
+    set name(val){
+      if (val.length < 2) {
+        throw new Error('2자 이상이어야 함');
+      }
+        this._name = val;
+    }
+  }
+//  속성이름에 _를 붙이는 것은 암묵적으로 비공개 속성임을 나타낸다.
+user2.name = 'kay';
+console.log(user2.name);
+// user2.name = 'k';
+}
+
+{
+  //화살표 함수 arrow function
+  // function키워드를 안쓰고 화살표의 연산자 사용 
+  // 매개변수가 하나 이상일 졍우 인자를 정의할떄 괄호 생략
+  // 매개 변수가 없거나 둘 이상일 경우 괄호 작성
+  // 코드 블록{}을 지정하지 않고 한문장으로 작성시 return문을 사용하지 않아도 됨
+  //{}을 지정했을 경우 return 작성해주기
+
+  const double = x => x + x;
+  console.log(double(2));
+    // 매개변수가 하나 이상일 졍우 인자를 정의할떄 괄호 생략
+    // 코드 블록{}을 지정하지 않고 한문장으로 작성시 return문을 사용하지 않아도 됨
+    //매개변수 x를 지정받아 x+x를 반환하는 함수에 변수를 2지정
+    // function double (x){return x + x;}임
+
+  const add = (a, b) => a + b;
+  console.log(add(1, 2));
+    // 매개 변수가 없거나 둘 이상일 경우 괄호 작성
+  // 코드 블록{}을 지정하지 않고 한문장으로 작성시 return문을 사용하지 않아도 됨
+
+  const printArguments = () => {
+    console.log(arguments);
+  }
+  // printArguments(1, 2, 3);
+
+  //  return문이 없기때문에 반환값이 없음
+  //{}을 지정했을 경우 return 작성해주기
+  //에러가 뜨는 이유는 arguments의 객체가 만들어지지 않앗기때문이다
+
+
+  const sum = (...args) => {
+    let total = 0;
+    for(let i = 0; i < args.length; i++){
+      total += args[i];
+    }
+    return total;
+  }
+  console.log(sum(1, 2, 3));
+  //나머지연산자를 통해 매개변수 정의
+  // args는 전달받은 인자 목록을 배열로사용가능
+
+  setTimeout(() => {
+    console.log('화살표 함수!');
+  }, 10);
+// 매개변수 없어서 괄호작성
+}
+
+{
+  //객체지향 프로그래밍 이해
+  // 프로그램을 객체들로 구성 객체들간에 상호작용하도록 작성하는 방법
+  //객체는 식별 가능한 구체적인 사물 또는 추상적인 개념
+  //객체는 특징적인 행동(메소드=함수값으로 가지는 속성)과 변경가능한 상태(그밖에 다른 값)를 가짐
+
+  const teacherJay = {
+    name: 'jay',
+    age: 30,
+    teachJavascript: function(student) {
+      student.gainExp();
+    }
+  }
+
+  const studentBbo = {
+    name: 'bbo',
+    age: 20,
+    exp: 0,
+    gainExp: function (){
+      this.exp++;
+    }
+  }
+  console.log(studentBbo.exp);
+  teacherJay.teachJavascript(studentBbo);
+  console.log(studentBbo.exp);
+}
+
+{
+  //모든 객체는 다른 객체의 prototype(원형)이 될수있다. 특징을 묘사하는 원형 객체를 만들고 이 원형 객체에 기반하는
+  // 여러 객체들을 만들면 모두 같은 특징을 가질수 있다.
+
+  const studentProto = {
+    gainExp: function (){
+      this.exp++;
+    }
+  }
+
+  const harin = {
+    name: '하린',
+    age: 20,
+    exp: 0,
+    __proto__: studentProto
+  };
+
+  const kay = {
+    name: 'kay',
+    age: 30,
+    exp: 10,
+    __proto__: studentProto
+  };
+
+  harin.gainExp();
+  kay.gainExp();
+  kay.gainExp();
+  console.log(kay);
+  console.log(harin);
+}
+
+{
+  //생성자 함수이해
+  // 생성자 함수는 new라는 키워드를 꼭 사용해야함 리턴문이 없어도 새로운 객체가 반환됨 함수명은 대문자로시작!
+// 객체에 타입이 적용되면 그건 인스턴스라고 부름 앞예문의 두 학생은 학생타입의 인스턴스 
+// new로 만들어진 객체는 해당타입의 인스턴스
+
+function Teacher (name, age, subject){
+  this.name = name;
+  this.age = age;
+  this.subject = subject;
+  this.teach = function(student) {
+    console.log(`${student}에게 ${this.subject}를 가르친당`);
+  };
+}
+
+const jay = new Teacher('jay', 31, 'js');
+console.log(jay);
+jay.teach('bbo');
+
+console.log(jay.constructor);
+console.log(jay instanceof Teacher);
+
+const jay2 = Teacher('jay2', 23, 'js');
+console.log(jay2);
+console.log(age);
+// 이때 this는 전역객체를 가리킴 전역변수 age를 참조해 23 찍힘
+// 새로운 객체는 반환되지 않아 jay2는 undefined
+
+// 생성자 함수 new 호출을 통한 객체 생성 과정
+//1. 빈 객체를 만든다.
+//2. 만든 빈 객체를 this에 할당
+//3. 생성자 함수 바디의 코드를 실행 (this에 속성 및 메소드 추가)
+// 4. 만든 빈 객체의 __proto__에 생성자 함수의 프로토타입 대입
+// 5. this를 생성자의 반환 값으로 변환
+}
+
+{
+  //프로토 타입 기반 상속 이해
   
 }
