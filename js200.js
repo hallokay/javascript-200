@@ -561,7 +561,7 @@ console.log(user2.name);
   // args는 전달받은 인자 목록을 배열로사용가능
 
   setTimeout(() => {
-    console.log('화살표 함수!');
+    // console.log('화살표 함수!');
   }, 10);
 // 매개변수 없어서 괄호작성
 }
@@ -660,7 +660,167 @@ console.log(age);
 // 5. this를 생성자의 반환 값으로 변환
 }
 
+console.clear();
 {
   //프로토 타입 기반 상속 이해
+  // 모든 객체는 __proto__ 속성을 가진다. 해당객체를 생성한 생성자 함수의 prototype 객체
+  //그래서 생성자 함수를 통해서 타입을 정의할 수 있음
+  function Storage(){
+    this.dataStore = {};
+  }
+  Storage.prototype.put = function(key, data){
+    this.dataStore[key] = data;
+  }
+  Storage.prototype.getData = function(key){
+    return this.dataStore[key];
+  }
+  // Storage생성자 함수 정의 내부 속성으로 dataStore을 가지고 빈객체 할당
+  //put메소드 추가 주어진 키에 해당하는 값을 dataStore에 할당
+  //get 메소드추가 매개변수의 값을 키로 해서 dataStore 속성에서 찾아 반환
+
+  const productStorage = new Storage();
+  productStorage.put('id001',{name: '키보드', price: 2000});
+  console.log(productStorage.getData('id001'));
+
+  function RemovableStorage (){
+    Storage.call(this);
+  }
+  //   RemovableStorage라는 생성자 함수 정의
+// 이때 호출하면서  this를 전달 --이렇게 되면 Storage 생성자 함수가 호출됨
+// 그래서 dataStore가 속성으로 추가됨
+  RemovableStorage.prototype = Object.create(Storage.prototype);
+  RemovableStorage.prototype.removeAll = function(){
+    this.dataStore = {};
+  }
+  //Object.create메소드는 주어진 인자를 __proto__에연결한 새로운 객체 반환. 간단히 상속관게를 형성할수있다
+  // Object.create(Storage.prototype)를 할당하면 Storage함수의 프로토타입 객체가 
+  // RemovableStorage함수의 프로토타입 객체에 할당 상속관계 형성
+
+  const productStorage2 = new RemovableStorage();
+  productStorage2.put('id001',{name: '키보드', price: 2000});
+  productStorage2.removeAll();
+  const item2 = productStorage2.getData('id001');
+  console.log(item2);
+// RemovableStorage생성자 함수에 의해 만들어지는 인스턴스들은 내부에 없는 매소드를 
+// RemovableStorage의 프로토타입에서 먼저 찾고 없으면 Storage프로토타입에서 찾음
+// 나아가 Object.prototype에서까지 찾음
+// 이런 연결을 프로토타입 체인이라고 함
+}
+
+{
+  //클래스 정의
+  // 별도 타입의 객체를 생성하는 설계도면--붕어빵틀 (객체--붕어빵)
+  // 객체가 가져야 할 상태와 행위들을 속성과 메소드로 정의 
+
+  class Cart {
+    constructor () {
+      this.store = {};
+    }
+
+    addProduct(product){
+      this.store[product.id] = product;
+    }
+
+    getProduct(id){
+      return this.store[id];
+    }
+  }
+
+  const cart1 = new Cart();
+
+  cart1.addProduct({id:1, name: '노트북'});
+  console.log(cart1.store);
+
+ const p = cart1.getProduct(1);
+console.log(p);
+
+}
+{
+  //클래스 상속 이해
+  class Chart {
+    constructor (width, height){
+      this.width = width;
+      this.height = height;
+    }
+
+    drawLine (){
+      console.log('draw line');
+    }
+  }
+
+  // 클래스 상속은 extends키워드 이용
+  class BarChart extends Chart {
+    constructor (width, height){
+      super(width, height)
+      //상속을 하면 생성자 함수에서 상속한 부모 클래스의 생성자 호출해야하는데 이때
+      // 사용하는 키워드는 super
+    }
+
+    draw (){
+      this.drawLine();
+      console.log(`draw ${this.width} x ${this.height} barChart`);
+    }
+  }
+
+  const barChart1 = new BarChart(100, 100);
+  barChart1.draw();
+}
+
+{
+  // 클래스 정적 메소드와 속성 정의ㅡ정적메소드는 클래스를 ㅌㅇ해 직접호출
+  // (일반적인 메소드는 해당 클래스의 인스턴스를 통해 호출)
+  class Product {
+    static build (name, price) {
+      const id = Math.floor(Math.random() * 1000);
+      return new Product(id, name, price);
+    }
+     // static키워드를 사용해서 build를 정적메소드로 정의
+  //  --난수를 아이디로하는 상품의 인스턴스
+
+    static getTaxPrice (product){
+      return (product.price * 0.1 ) + product.price;
+    }
+ //세금을 계산하고 반환하는 정적메소드
+    constructor (id, name, price) {
+      this.id = id;
+      this.name = name;
+      this.price = price;
+    }
+    // 상품클래스의 생성자 함수를 정의
+
+  }
+  class DeposableProduct extends Product {
+    depose (){
+      this.deposed = true;
+    }
+  }
+  //페기가 가능한 삼품을 클래스로 정의
+
+  const gum = Product.build('껌', 1000);
+  console.log(gum);
+
+  const clothes = new DeposableProduct(1, '옷', 2000);
+  const taxPrice = DeposableProduct.getTaxPrice(clothes);
+  console.log(taxPrice);
+}
+
+{
+class ProductWithCode {
+  static get CODE_PREFIX(){
+    return 'PRODUCT='
+  }
+
+  constructor(id){
+    this.id
+    this.code = ProductWithCode.CODE_PREFIX + id;
+  }
+}
+
+const product1 = new ProductWithCode('001');
+console.log(ProductWithCode.CODE_PREFIX);
+console.log(product1.code);
+}
+{
+  // this 이해
   
 }
