@@ -821,6 +821,104 @@ console.log(ProductWithCode.CODE_PREFIX);
 console.log(product1.code);
 }
 {
-  // this 이해
-  
+  // this 이해- 전역에서도 사용할수 잇고 함수안에서도 가능 
+  //class안에서의 this는 생성자 함수와 동일
+
+  this.valueA = 'a';
+  console.log(valueA);
+  valueB = 'b';
+  console.log(this.valueB);
+
+  function checkThis(){
+    console.log(this);
+  }
+  checkThis();
+
+  function checkThis2(){
+    'use strict';
+    //엄격한 모드
+    console.log(this);
+  }
+  checkThis2();
+
+  function Product (name, price){
+    this.name = name;
+    this.price = price;
+  }
+
+  const product1 = Product('가방', 20000);
+  console.log(window.name);
+  console.log(window.price);
+// Product는 생성자 함수로 작성 하지만 new카워드 없이 호출되면 이때 this는 전역객체인window를 가르킴
+//new키워드와 함꼐 호출되어야 하지만 this는 프로토 타입 객체와 연결된 객체 반환
+
+const product2 = {
+  name: '신발',
+  price: 3000,
+  getVAT(){
+    return this.price / 10;
+  }
 }
+const valueOfProduct2 = product2.getVAT();
+console.log(valueOfProduct2);
+
+
+const calVAT = product2.getVAT;
+const VAT2 = calVAT();
+console.log(VAT2);
+//메소드 안에서 this를 정의했지만 다른 변수에 저장하고 그 변수를 통해 호출하면 일반적인 함수 호출이 되어 this는 전역 객체를 가르킴 
+//즉 호출하는 시점에서 . 연산자와 함께 객체가 주어져야 메소드 안의 this가 호출의 주체인 객체가 된다
+
+const newCalVAT = calVAT.bind(product2);
+const VAT3 = newCalVAT();
+console.log(VAT3);
+//this 는 bind 메소드를 통해 전달한 인자값으로 변경 가능 
+// this외에 call과 apply메소드또한this가 가리키는 값 변경 가능
+
+const counter1 = {
+  count: 0,
+  addAfter1Sec(){
+    setTimeout(function(){
+      this.count += 1;
+      console.log(this.count);
+    }, 1000)
+  }
+};
+counter1.addAfter1Sec();
+
+
+const counter2 = {
+  count: 0,
+  addAfter1Sec(){
+    setTimeout(() => {
+      this.count += 1;
+      console.log(this.count);
+    }, 1000)
+  }
+};
+counter2.addAfter1Sec();
+
+}
+
+console.clear();
+
+{
+// 모듈 이해하기
+// 모듈은 파일이나 코드의 묶음 단위로 애플리케이션 하나의 구성요소
+// 모듈로 정의하면 코드 재사용 가능
+// 네임 스페이스 패턴 모듓
+
+var namespaceA = (function(){
+  var privatVariable = '비공개 변수';
+  return {
+    publicApi: function(){
+      console.log(`${privatVariable}를 접근할 수 있습니다`);
+    }
+  }
+})();
+
+namespaceA.publicApi();
+
+// 즉각 호출 패턴인 (function(){//코드})(); 를 통해 namespaceA의 변수의 함수에서 반환된 객체를 할당
+}
+
