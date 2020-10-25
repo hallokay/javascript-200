@@ -145,18 +145,145 @@ const filterSentence = (sentences) => {
 }
 {
         //문자열 자르기 2 substr
-    // '문자열'.substr(시작인덱스, 종료인덱스)
+    // '문자열'.substr(시작인덱스, 길이)
     const sentence = 'Wakanda forever!!!';
     console.log(sentence.substr(8));
-       //종료를 정하지 않았기때문에 13번째 인덱스부터 마지막까지 반환됨
+       //종료를 정하지 않았기때문에 13번째 인덱스부터 마지막까지 반환
     console.log(sentence.substr(8,7));
+    //8부터 7개 인덱스 불러짐
     console.log(sentence.substr(0));
     //0은 첫번째 인덱스 처음부터 전체문장 출력
     console.log(sentence.substr(-10));
-    //음수는 정상 출력되지 않음 
+    //음수는 뒤에서부터 출력 끝까지
     console.log(sentence.substr(0,-3));
+    //두번째 인자에 음수를 넣으면 정상출력이 안됨
     console.log(sentence.substr(30));
     //길이를 뛰어넘으면 빈값이 나옴
     console.log(sentence.substr(0,30));
-    //(2,7)과 같은 값이 나옴
+    //0부터 끝가지 출력됨
+}
+
+{
+    // 문자열 길이 구하기 length
+    // 문자열.length
+    const arr = ['short', 'long sentence, it is not appropriate'];
+
+    arr.forEach(str => {
+        if(str.length < 10) console.log(str);
+    });
+    //arr를 각각의내부요소로 접근 그때 인자의 길이가 10보다 작으면 출력 
+}
+{
+    //문자열로 반환 toString
+    const num = 5;
+    const bool = true;
+    const str = '문자열 값';
+    const arr = [1,2,3];
+    const obj = {a: 15};
+
+    console.log(num.toString());
+    console.log(bool.toString());
+    console.log(str.toString());
+    console.log(arr.toString());
+    console.log(obj.toString());
+
+    num.__proto__.toString = () => {
+        return 'toString 덮어쓰기';
+    };
+    //num에서 __proto__ f를 통해 toString 메소드 직접재정의
+    console.log(num.toString());
+}
+
+{
+    // 두개의 문자열 하나로 합치기 concat
+    const str1 = 'good afternoon';
+    const str2 = ', good evening';
+    const str3 = ', and good night!';
+    const str4 = ' - the truman Show, 1998';
+    console.log(str1.concat(str2, str3, str4));
+    //concat보다 연산자가 더 많이 사용됨
+}
+console.clear();
+{
+    //특정위치 문자 반환 charAt
+    const str = 'good afternoon, good evening, and good night!' 
+                + ' - the truman Show, 1998';
+
+    console.log(str.charAt(0));
+    console.log(str.charAt(5));
+    console.log(str.charAt(14));
+    console.log(str.length);
+    console.log(str.charAt(500));
+    //존재하지 않기에 빈값 출력
+}
+
+{
+    //특정 문자열 위치 확인 indexOf
+    const str = 'Carpe diem, seize the day';
+    console.log(`e는 ${str.indexOf('e')}에 있습니다`);
+    console.log(`대문자 C는 ${str.indexOf('C')}에 있습니다`);
+    console.log(`소문자 c는 ${str.indexOf('c')}에 있습니다`);
+    //소문자 c는 없기때문에 -1반환
+    console.log(`문자열 ", se"는 ${str.indexOf(', se')}에 있습니다`);
+
+    const arr = ['Carpe', 'diem', 'seize', 'the','day'];
+    const howManyHasE = (arr) => {
+        let count = 0
+        arr.forEach((str) => {
+            if(str.indexOf('e') > -1) count++;
+        });
+        return count;
+    }
+
+    console.log(`${arr}에 e가 있는 요소는 모두 ${howManyHasE(arr)}개 있습니다`);
+}
+
+{
+    //특정 문자열 위치 확인 lastIndexOf
+    //뒤에서부터 위치 확인 뒤에서부터 0번인덱스 
+    const str = 'Carpe diem, seize the day';
+    console.log(`e는 ${str.lastIndexOf('e')}에 있습니다`);
+    console.log(`대문자 C는 ${str.lastIndexOf('C')}에 있습니다`);
+    console.log(`소문자 c는 ${str.lastIndexOf('c')}에 있습니다`);
+    //소문자 c는 없기때문에 -1반환
+    console.log(`문자열 ", se"는 ${str.lastIndexOf(', se')}에 있습니다`);
+}
+
+{
+    //특정 문자열 포함여부 알아보기 includes
+    // 문자열.includes(문자열, 인덱스)
+    //두번째 인자는 필수값이 아님 지정하면 해당 인덱스 위치부터 문자열 확인
+    //true/ false반환
+
+    const str = 'Make your lives extraordinary';
+
+    console.log(str.includes('Make'));
+    console.log(str.includes('Make', 1));
+}
+
+{
+ //문자열 대소문자 변환
+ console.log('find your one voice'.toLowerCase());
+ console.log('find your one voice'.toUpperCase());
+
+ const value = 'find your one voice';
+ console.log(value.toLowerCase() === value.toUpperCase());
+}
+
+{
+    //배열요소 분할/ 변환하기 from
+    // Array.from(배열로 변환될 값, 반환될 배열내부 요소에 대한 callback함수)
+    // 두번쨰인자는 필수값이 아님-callback 함수를 대입하면 분할과 동시에 각 값을 변환시킬수 있음
+    
+    const str = '123456';
+
+    const distributedArr = Array.from(str);
+    console.log(distributedArr);
+
+    const modifiedArr = Array.from(distributedArr, el => el*2 );
+    console.log(modifiedArr);
+}
+
+{
+    //80
 }
