@@ -283,7 +283,282 @@ console.clear();
     const modifiedArr = Array.from(distributedArr, el => el*2 );
     console.log(modifiedArr);
 }
+console.clear();
 
 {
-    //80
+    // 문자열을 특정 구분자에 의해 배열로 나누기 split
+    const capitals = `prague, czeco Republic
+    Copenhagen, Denmark
+    Paris, France
+    Madrid, Spain
+    Rome, Italy`
+
+    capitals.split('\n').forEach(s => {
+        const capital = s.split(',')[0];
+        const country = s.split(',')[1];
+        console.log(`${capital} is in ${country}`);
+    });
+// capitals 의 문자열 값을 줄바꿈으로 분리
+//배열로 변환된 값은 forEach로 접근
+//각 문장을 다시 split로 배열로 변환 구분자는 ,로 분리된 배열 0 인덱스요소는 캐피탈에
+//1인덱스는 컨츄리에 대입 
+}
+
+{
+    //배열뒤에 요소 추가 push
+//자바스크립트 배열 자료형은 Linked List 자료구조형태를 가지고 잇다
+//따라서 앞뒤에 요소추가하는 것이 가능
+const festa = ['mang'];
+festa.push('chimmy');
+festa.push('tata');
+festa.push('cooky');
+festa.push('shooky');
+festa.push('koya');
+festa.push('rj');
+
+festa.forEach(name => {
+    console.log(name);
+});
+}
+
+{
+    //배열 앞에 요소 추가 unshift
+    const festa = ['mang'];
+festa.unshift('chimmy');
+festa.unshift('tata');
+festa.unshift('cooky');
+festa.unshift('shooky');
+festa.unshift('koya');
+festa.unshift('rj');
+
+festa.forEach(name => {
+    console.log(name);
+});
+}
+{
+    //배열 길이 구하기 length
+    const ship = {
+        max: 4,
+        passengers: [],
+        onBoard: function(name){
+            if (this.passengers.length === 4) {
+                console.log(`this ship is full. ${name} can not board this ship.`);
+            } else {
+                this.passengers.push(name);
+                console.log(`${name} boarded`);
+            }
+        }
+    }
+
+    ship.onBoard('kay');
+    ship.onBoard('bomi');
+    ship.onBoard('suk');
+    ship.onBoard('jay');
+    ship.onBoard('chole');
+    ship.onBoard('daniel');
+}
+console.clear();
+
+{
+    //배열 합치기 concat
+
+    const prevList = [1,2,3];
+    const currList = [4,5,6];
+    const nextList = [7,8,9];
+
+    console.log(prevList.concat(currList));
+    console.log(prevList.concat(currList,nextList));
+
+    console.log(['배열'].concat('합치기'));
+    console.log(['배열'].concat('합치기','js200'));
+} 
+{
+//배열에 특정 구분자를 넣어 문자형으로 변환하기 join
+const dialog = [
+    'Fear is the path to the dark side',
+    'Fear leads to anger',
+    'Anger leads to hate',
+    'Hate leads to suffering',
+    'I sense much fear in you'
+];
+console.log(dialog.join('.'));
+//구분자 .을 넣어서 합친다
+console.log(dialog.join('.\n'));
+//구분자 .과 줄바꿈을 이용해 합친다
+}
+
+{
+    // 배열 마지막 요소 추출 pop
+    const arr = [1,2,3];
+    console.log(arr.pop());
+    console.log(arr.pop());
+    console.log(arr.pop());
+    console.log(arr.pop());
+    //개수보다 많이 호출되면 undefined
+    //마지막 요소가 추출되면서 원본 배열도 수정됨
+
+}
+{
+    // 배열 맨앞 요소 추출 shift
+    const arr = [1,2,3];
+    console.log(arr.shift());
+    console.log(arr.shift());
+    console.log(arr.shift());
+    console.log(arr.shift());
+    //개수보다 많이 호출되면 undefined
+    //호출과 동시에 원본 배열도 수정됨
+}
+
+{
+// 배열의 특정 위치의 요소 추출 slice
+//시작 인덱스 부터 끝 인덱스 지정 단, 끝 인덱스의 요소는 포함이 안됨 끝번호의 이전까지
+// 배열.slice(시작 인덱스, 끝 인덱스)
+
+const arr = ['멜론','레몬','소스', '사과', '쥬스'];
+console.log(`과일이 아닌 요소는 ${arr.slice(2,3)}와 ${arr.slice(4,5)}`);
+console.log(arr.slice(0,10));
+//더 큰 값을 넣으면 배열 가장 마지막까지 반환
+
+}
+
+{
+    // 배열 인덱스로 특정 요소 수정 splice
+    // 배열.splice(시작 인덱스,삭제할 요소 개수 , 추가 요소)
+    // 시작 인덱스부터 삭제하고자 하는 개수만큼 삭제되고 시작인덱스부터 추가됨
+    const fruits =  ['멜론','레몬','소스', '사과', '쥬스'];
+
+    fruits.splice(4,1);
+    fruits.splice(4, 0, '포도');
+    fruits.splice(2, 1, '귤', '바나나','딸기');
+    console.log(fruits);
+}
+
+console.clear();
+
+{
+    // 배열의 특정 요소 위치 확인indexOf
+    // 배열.indexOf(검색할 값, 시작 인덱스);
+
+    const arr = ['spring','summer','fall', 'winter', 'is', 'down'];
+
+    console.log(`winter is in this index ${arr.indexOf('winter')}`);
+    console.log(`winter is not in here, look this value ${arr.indexOf('winter', 4)}`);
+}
+{
+    // 배열 순환하기 forEach
+    // 배열.forEach(callback함수)
+    const arr = [
+        {id: 0, name: '혜림', age: 4},
+        {id: 1, name: '현일', age: 6},
+        {id: 2, name: '지숙', age: 5},
+        {id: 3, name: '두식', age: 3},
+
+    ];
+
+    arr.forEach((el) => {
+        console.log(el.name);
+    });
+    //arr는각각 el로 받아오고 el의 name속성 출력
+}
+
+{
+    // 배열 정렬 sort
+
+    // 배열.sort(function(a,b){
+    //     return 비교값;
+    // })
+//  비교값 > 0 a가 b보다 작은 숫자 인덱스를 가진다 작은 인덱스란 배열 앞에 위치 
+//  비교값 < 0 b가 작은 숫자 인덱스를 가짐 b가 앞에 위치
+//  비교값 = 0 a와 b의 위치를 변경하지 않음
+
+const numArr1 = [2, 0, 3, 4, 1];
+const numArr2 = [2, 0, 3, 4, 1];
+const objArr = [
+    {id: 2, name: 'leo'},
+    {id: 0, name: 'kay'},
+    {id: 3, name: 'bomi'},
+    {id: 1, name: 'jason'},
+    {id: 4, name: 'lena'},
+];
+
+numArr1.sort(function(a, b){
+    return a - b;
+    //a-b를 리턴 오름차순 정렬
+});
+    
+numArr2.sort(function(a, b){
+    return b - a;
+    //b-a를 리턴 내림차순 정렬
+});
+objArr.sort(function(a, b){
+    if(a.name > b.name) return 1;
+    //a의 이름이 b이름보다 크면 1반환  즉 a를 b앞에 정렬시킴
+    else if (b.name > a.name) return -1;
+    //반대의 경우 b가 a앞에 정렬됨
+    else return 0;
+    //속성값이 같으면 0반환
+});
+
+console.log(`오름차순 : ${numArr1}`);
+console.log(`내림차순 : ${numArr2}`);
+console.log(objArr);
+}
+
+{
+    //reverse 배열순서 반대로 나열하기
+
+ const str = 'abcdefghijklmnopqrstuvwxyz';
+ const arr = str.split('');
+ //문자열을 배열로 변환 
+ arr.reverse();
+ //반대로 나열
+
+ console.log(arr.join(''));
+ //배열arr은 구분자 없이 한 문자열로 병합됨
+}
+
+{
+    //배열 요소가 특정 조건을 만족하는지 확인 some
+    // some메소드는 callback함수의 리턴값이 트루를 반환할때까지만 배열 요소 순환
+    // 마지막 요소까지 순환해도 트루가 없으면 false반환
+    //중간에 true가 나오면 거기서 정지됨
+
+    const arr = [
+        {id: 0, name: '혜림', age: 4},
+        {id: 1, name: '현일', age: 6},
+        {id: 2, name: '지숙', age: 5},
+        {id: 3, name: '두식', age: 3},
+    ];
+
+    const isjisuk = arr.some(el => el.name === '지숙');
+    const olderThanSix = arr.some(el => el.age >6);
+    //ㅂ6보다 큰 나이가 있는지 확인후 false반환
+
+    console.log(isjisuk);
+    console.log(olderThanSix);
+
+}
+
+{
+    //모든 배열의 요소가 특정 조건을 만족하는지 확인 --every
+
+    const arr = [
+        {id: 0, name: '혜림', age: 4},
+        {id: 1, name: '현일', age: 6},
+        {id: 2, name: '지숙', age: 5},
+        {id: 3, name: '두식', age: 3},
+    ];
+
+    const isAlljisuk = arr.every(el => el.name === '지숙');
+    const olderThanSix = arr.every(el => el.age < 7);
+    //모두가 7보다 작은 나이인지 확인후 반환
+
+    console.log(isAlljisuk);
+    console.log(olderThanSix);
+}
+
+{
+    //배열의 특정 조건을 기준으로 필터링하기 filter
+
+    
 }
