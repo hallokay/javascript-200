@@ -559,6 +559,75 @@ console.log(objArr);
 
 {
     //배열의 특정 조건을 기준으로 필터링하기 filter
+    const arr = [1,2,3,4,5,6,7,8,9,10];
+    
+    const filteredTwo = arr.filter(a =>{
+        console.log(`현재 위치의 값은${a}`);
+        return a % 2 === 0;
+    });
+    // arr의 내부 요소가 각각a변수로 할당
+    //a를 2로 나누어지는 값을 리턴
+    //리턴된 값으로 새로운 배열로 반환
 
+    console.log(filteredTwo);
+
+    const filteredThree = arr.filter(a => a % 3 == 0);
+    console.log(filteredThree);
+
+}
+
+{
+    //특정 조건을 만족하는 요소 찾기 find
+
+    const arr = [
+        {name: '혜림', age: 4},
+        {name: '현일', age: 30},
+        {name: '지숙', age: 5},
+        {name: '두식', age: 3}
+    ];
+
+    const myFriend = arr.find(a => a.age === 30);
+    console.log(myFriend);
+}
+
+{
+    //배열요소 일괄 변경 map
+    const arr = [
+        {name: '혜림', age: 4},
+        {name: '현일', age: 6},
+        {name: '지숙', age: 5},
+        {name: '두식', age: 3}
+    ];
+
+    const arr2 = arr.map(el => {
+        el.age = el.age + 1;
+        return el;
+        //map메소드는 콜백함수의 리턴값에 따라 반환되는 배열 값이 바뀜
+        // 속성만 변경해서 객체를 다시 반환했기때문에 arr2는 객체요소로 구성된 배열 할당
+    });
+
+    const arr3 = arr.map(el => el.name);
+//콜백함수는 전달된 요소의 이름속성만 반환 따라서 문자열로 된 새로운 배열 할당
+// return el; 을 안해줫기때문
+    console.log(arr2);
+    console.log(arr3);
+}
+
+{
+    // 배열 내 값을 누적시키기 reduce
+
+    // 배열.reduce((누적된 값, 현재 요소 값, 현재 인덱스, 원본 배열) => {
+    //     return 누적 값으로 반환되는 값
+    // }, 초기값);
+
+    //누적된 값과 현재 요소값은 필수
+
+    const numArr = [1,2,3,4,5];
+
+    const result = numArr.reduce((acc,el) => {
+        return acc + el
+    }, 0);
+
+    console.log(result);
     
 }
