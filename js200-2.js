@@ -629,5 +629,175 @@ console.log(objArr);
     }, 0);
 
     console.log(result);
+    //acc는 0부터 들어온다. el은 numArr의 배열 인자 받아와서 1부터
+    // 0 + 1 은 1이므로 1반환되어서 acc에 1이 들어감  
+    // 더해진 리턴 값은 계속 acc에 들어간다
+    // 1 + 2 ,3 + 3, 6 + 4, 10 + 5
+
+}
+
+console.clear();
+{
+    //중첩된 배열을 단일하게 만들기 reduce
+    const arr = [1,[2,3],[4,5,6], ['배열', '나열하기'],'자스'];
+
+    const result = arr.reduce((acc,el) => {
+        return acc.concat(el);
+    }, []);
+    //배열에 reduce 누적하기 메소드를 호출 요소 순환 결과값은 result변수로 다시 대입
+    // acc는 빈배열이 초기값으로 할당
+    // 빈배열부터 [1], [1,2,3]이런식으로 내부요소들을 연속으로 차곡차곡 병합
+
+    console.log(result);
+}
+
+{
+    //객체에서 키만 추출 keys
+
+    const obj = {
+        movie: 'Sunny',
+        music: 'Like Sugar',
+        style: 'Retro',
+        price: Infinity
+    };
+
+    const arr = Object.keys(obj);
+    //arr에 Object의 키를 호출하고 인자를 obj 넣음
+    // obj의 키 속성만 배열로 담아짐
+
+    console.log(arr);
+}
+
+{
+    //객체에서 값만 추출 values 
+
+    const obj = {
+        movie: 'Sunny',
+        music: 'Like Sugar',
+        style: 'Retro',
+        price: Infinity
+    };
+
+    const arr = Object.values(obj);
+    //arr에 Object의 values를 호출하고 인자를 obj 넣음
+    // obj의 속성값만 배열로 담아짐
+
+    console.log(arr);
+}
+
+{
+    //객체를 배열로 변환 entries
+
+    const obj = {
+        movie: 'Sunny',
+        music: 'Like Sugar',
+        style: 'Retro',
+        price: Infinity
+    };
+
+    const modifiedObj = Object.entries(obj);
+    //arr에 Object의 values를 호출하고 인자를 obj 넣음
+    // obj의 속성값만 배열로 담아짐
+
+    console.log(modifiedObj);
+}
+
+{
+    //객체가 변경되지 않도록 하기 freeze
+    //객체를 동결한다. 동결이후 추가하거나 제거하기 불가능
+
+    let obj = {};
+
+    obj.title = 'Idol';
+    obj = Object.freeze(obj);
+    obj.title = 'singer';
+
+    console.log(obj);
+//바뀌지 않는다 그리고 이떄는 'use strict'; 선언 전이라 에러가 나지 않는다
+
+
+    const changeUntilNum = (obj, num) => {
+        'use strict';
+
+        while(true) {
+            console.log(obj);
+            
+            if(obj.age >= num){
+                obj = Object.freeze(obj);
+            }
+            obj.age += 1;
+        }
+        //반복문 내부가 true일때만 순환 에러 발생하면 반복문은 멈춘다.
+        // 나이값이  넘버값보다 큰거나 같은지 확인 크거나 같으면 동결 아니면 +1해서 재할당
+
+    }
+
+    let profile = {name: '이지은', age: 28};
+    // changeUntilNum(profile, 35);
+}
+
+console.clear();
+{
+    //객체에 속성 추가 못하게 만들기 seal
+//seal은 객체를 밀봉 봉인된 객체이므로 속성을 추가/ 삭제 불가능 기존속성은 변경 가능
+
+const album = {
+    name: 'LOVE YOURSELF'
+};
+
+album.song = 'Euphoria';
+album.singer = 'Rm';
+
+console.log(album);
+
+Object.seal(album);
+
+album.comment = 'answer';
+//추가 불가능
+album.singer = 'jk';
+//기존 속성이라 변경 가능
+delete album.name;
+//삭제 불가능
+
+console.log(album);
+}
+
+{
+    //객체 병합 확장하기 assign
+    //인자로 대입된 객체를 하나로 병합
+    //첫번째 인자를 기준으로 병합됨 이 객체를 기준으로 병합되기 때문에 첫번째 인자는 원본이 수정되어서 반환됨
+
+    const obj1 = {one: 1, two:2, three: 3};
+    const obj2 = {name: '탄이', age:2, address: 'Seoul'};
+    const obj3 = {friends: ['혜림', '케이', '뿡뿡이', '나래']};
+
+    const newObj1 = Object.assign({}, obj1);
+    const newObj2 = Object.assign({}, obj1, obj2);
+    newObj1.four = 4;
+
+    console.log(obj1);
+    console.log(newObj1);
+    console.log(newObj2);
+
+    console.log('\n');
+
+    const newObj3 = Object.assign(obj1, obj3); 
+    //obj1를 기준으로 합쳤기 때문에 원본객체에 적접적 영향을 미침 변경됨
+    // obj1 newObj3은 같은 값을 가짐
+    console.log(obj1);
+    //
+
+    console.log(newObj1);
+    console.log(newObj2);
+    console.log(newObj3);
+}
+
+{
+    // 진수 변환 toString
+// 지정된 객체 문자열을 출력
+
+    const dec = 531;
     
+
+
 }
