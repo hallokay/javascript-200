@@ -187,9 +187,9 @@ const filterSentence = (sentences) => {
     console.log(arr.toString());
     console.log(obj.toString());
 
-    num.__proto__.toString = () => {
-        return 'toString 덮어쓰기';
-    };
+    // num.__proto__.toString = () => {
+    //     return 'toString 덮어쓰기';
+    // };
     //num에서 __proto__ f를 통해 toString 메소드 직접재정의
     console.log(num.toString());
 }
@@ -792,12 +792,120 @@ console.log(album);
     console.log(newObj3);
 }
 
+console.clear();
 {
     // 진수 변환 toString
 // 지정된 객체 문자열을 출력
-
+//10진수의 숫자를 다른 진법으로 변환
     const dec = 531;
-    
 
+
+    const binByDex = dec.toString(2);
+    const octByDex = dec.toString(8);
+    const hexByDex = dec.toString(16);
+
+
+    console.log(binByDex);
+    console.log(octByDex);
+    console.log(hexByDex);
+
+    //2는 2진수로 변환
+    //8은 8진수
+    //16은16진수
+}
+
+{
+    //10진수 아닌 집법을 10 진법으로 변환 parseInt
+    const bin = 1000010011;
+    const oct = 1023;
+    const hex = 213;
+
+    const dexBybin = parseInt(bin, 2);
+    const dexByoct = parseInt(oct, 8);
+    const dexByhex = parseInt(hex, 16);
+    const hexByOct = parseInt(oct, 8).toString(16);
+    //8진수 값인 oct변수를 10진수로 변환 후 toString으로 16진수로 변환
+
+
+console.log(dexBybin);
+console.log(dexByoct);
+console.log(dexByhex);
+console.log(hexByOct);    
+}
+
+{
+    //랜덤값 구하기 random
+    //무작위의 실수형 값을 반환
+
+    const generateRandom = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    };
+
+    for (let i = 0; i < 5; i++){
+        console.log(generateRandom(1, 10));
+    }
+    //테스트를 5번 순환하는 반복문 1-10 까지의 랜덥값을 5회반환
+
+    
+    for (let i = 0; i < 5; i++){
+        console.log(generateRandom(10, 100));
+    }
+//10에서 100까지를 5회반환
+}
+
+{
+    //특정자리수에서 반올림 round
+    
+    const val = 573.926;
+
+    console.log(Math.round(val));
+    console.log(Math.round(val * 10) / 10);
+    // 소수점 둘째자리에서반올림
+    //10을 곱해서 소수점두번째 숫자 2앞으로 점을 옮기고 라운드 메소드 적용후 다시 소수점을 한칸 앞으로
+    console.log(Math.round(val * 100) / 100);
+    console.log(Math.round(val / 10) * 10);
+    //1의자리에서 반올림
+    console.log(Math.round(val / 100) * 100);
+    //10의 자리에서 반올림
 
 }
+
+{
+    //특정자리수에서 올림하기 ceil --높은 숫자로 만들기
+    const positiveNum = 93.54;
+    const negativeNum = -39.27;
+
+    
+    console.log(Math.ceil(positiveNum));
+    console.log(Math.ceil(negativeNum));
+    //-39 -39.27을 올림하면 -39가 큰숫자 이기때문
+    console.log(Math.ceil(positiveNum * 10) / 10);
+    //10곱하면 935.4 가됨 올림하면 936 그리고 다시 소수점 앞으로 땡김
+    console.log(Math.ceil(positiveNum / 10) * 10);
+    //9.354에서소수점 뒷자리 올림하면 10 10에서 10곱하면 100
+    console.log(Math.ceil(negativeNum * 10) / 10);
+       //- 392.7 에서 올림 392 에서 10나누면 39.2
+    console.log(Math.ceil(negativeNum / 10) * 10);
+    //-3.927 올림하면 -3 10곱하면 -30
+}
+
+{
+    // 특정자리에서 내립 floor--낮은 숫자로 만들기
+    const positiveNum = 93.54;
+    const negativeNum = -39.27;
+
+    
+    console.log(Math.floor(positiveNum));
+    console.log(Math.floor(negativeNum));
+    //-39 에서 내림하면 -40
+    console.log(Math.floor(positiveNum * 10) / 10);
+    //10곱하면 935.4 가됨 4버리고 935 소수점 앞으로 땡김 93.5
+    console.log(Math.floor(positiveNum / 10) * 10);
+    //9.354에서소수점 뒷자리 내림하면 9 10에서 10곱하면 90
+    console.log(Math.floor(negativeNum * 10) / 10);
+       //- 392.7 에서 내림 393 에서 10나누면 39.3
+    console.log(Math.floor(negativeNum / 10) * 10);
+    // -3.927 에서 내임 -4 소수점 뒤로 -40
+    
+}
+console.clear();
