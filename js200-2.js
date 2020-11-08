@@ -909,3 +909,179 @@ console.log(hexByOct);
     
 }
 console.clear();
+
+{
+     //현재 시간을 원하는 포맷으로 출력
+//getFullYear getMonth getDate
+
+Date.prototype.yyyymmdd = function() {
+    const yyyy = this.getFullYear();
+    const mm = this.getMonth() < 9 ?
+                `0${this.getMonth() + 1}` : this.getMonth() + 1;
+                //getMonth는 기본적으로 0부터 시작그래서 +1
+                //  두자리를 맞춰주기 위해 9보다 작은 숫자 8까지는 앞에 0 붙음
+
+    const dd = this.getDate() < 10 ?
+                `0${this.getDate()}` : this.getDate();
+    return '' + yyyy + mm + dd;              
+            // 빈 문자열과 숫자값의 덧셈 연산은 숫자형 값을 문자형으로 반환 년월일 정보가 문자열로 반환
+}
+
+const date = new Date();
+console.log(date.yyyymmdd());
+
+}
+
+{
+
+    //UTC 기준 날짜 출력 Date.UTC
+    //세계표준시
+
+    const date = new Date();
+    const dateUTC = Date.UTC(
+        date.getUTCFullYear(),date.getUTCMonth(), date.getUTCDate(),
+        date.getUTCHours(),date.getUTCMinutes(), date.getUTCSeconds()
+    );
+
+    console.log(new Date(dateUTC));
+}
+
+{
+    //두개의 날짜 시이의 경과 시간 계산
+    Date.daysDiff = (date1,date2) => {
+        if (!(date1 instanceof Date) || (date2 instanceof Date)) return '';
+
+        const d1 = date1.getTime();
+        const d2 = date2.getTime();
+
+        let diff = d2 - d1;
+        //변수 d2와 d1의 값을 뺄셈 연산하여 diff변수에 대입 -  밀리 초단위
+
+        const sec = Math.floor((diff = diff / 1000) % 60);
+        const min = Math.floor((diff = diff / 60) % 60);
+        const hours = Math.floor((diff = diff / 60) % 24);
+        const days = Math.floor(diff / 24);
+
+        return `${days} days, ${hours} hours , ${min} minutes and ${sec} seconds`;
+
+    }
+
+    var from = new Date(2000, 0, 1);
+    var to = new Date(from.getFullYear() + 1, from.getMonth() + 3, from.getDate() + 5, from.getHours() + 4,
+     from.getMinutes() + 30, from.getSeconds() + 50);
+
+console.log(`from  ${from}`);     
+console.log(`to   ${to}`);
+console.log(Date.daysDiff(from, to));     
+     
+}
+
+console.clear();
+{
+    //json을 문자열로 변환 stringify
+// JSON.stringify(값, 리플레이서, 공백 개수)
+//첫번째 인자는 제이슨 문자열로 반환할 대상의 값
+// 두번째 replacer는 문자열로 변환하기 전에 값을 변경하는 인자 콜백함수나 특정키정보를 담은 배열
+//세번째 들여쓰기시 공백의 개수 1-10까지 null이나 음수 0 안됨
+
+const testStringify = {
+    stringifiedNum: JSON.stringify(13.1),
+    stringifiedStr: JSON.stringify('Kiss Carnival'),
+    stringifiedBln: JSON.stringify(false),
+    stringifiedArr: JSON.stringify([2003, 2018])
+};
+
+//testStringify 객체 속성 값으로 JSON.stringify메소드와 숫자 문자 불리언 배열자료형을 인자로
+
+for (let key in testStringify) {
+    
+console.log(`-------${key}--------`);
+    console.log(typeof testStringify[key]);
+    console.log(testStringify[key]);
+}
+// 인자를 돌면서 키와 동일한 키이름의 속성값이 어떤 타입인지 확인 ㄴㅅ갸ㅜ햐료는 머든 제이슨 값을 문자로 만듬
+//키의 속성값확인 전부 문자형으로 변환
+
+console.log(`----------------------stringifyObj----------`);
+const obj = {
+    drama: 'PET',
+    season: 2017,
+    castiong: ['koyuki', 'bomi'],
+    charactor: ['응꼬', '김뿡뿌']
+};
+
+console.log(typeof JSON.stringify(obj));
+//obj가 JSON.stringify에 넣어 문자 자료형인지 확인
+console.log(JSON.stringify(obj));
+console.log(JSON.stringify(obj,['drama','season']));
+// obj에서 드라마와 시즌만 속성만 담은 객체가 제이슨 문자열로 반환
+console.log(JSON.stringify(obj, null, 4));
+// 세번째 인자 들여쓰기 4번 적용  두번째는 null이라서 스킵
+console.log(JSON.stringify(obj,(key, val) => {
+    if(key === 'season') return 2003;
+    return val;
+}, 4));
+// 들여쓰기 4번에 키의 값이 시즌이면 시즌의 내용을 2003으로 바꿔줌 아니면 그냥 값출력
+}
+
+console.clear();
+{
+    //JSON 문자열을 JSON으로 변환 parse
+
+    // JSON.parse(값, 리플레이서);
+// 첫번쨰 인자는 stringify로 변환할 대상 값
+//두번쨰 리플레이서는 제이슨으로 변환하기 전에 값을 변경하는 인자 필수값아님
+// 콜백함수나 특정키정보를 담은 배열
+
+const jsonStr = '{"drama":"PET","season":2017,"castiong":["koyuki","bomi"],"charactor":["응꼬","김뿡뿌"]}'
+console.log(JSON.parse(jsonStr));
+// 문자열 값을 그대로 제이슨으로 변환
+console.log(JSON.parse(jsonStr, (key, val) => {
+    if(key === 'season') val = 2003;
+    return val;
+}));
+//두번째 콜백함수 추가 시즌이 있으면 값을 2003으로 바꿈
+
+
+console.log(JSON.parse('13.1'));
+console.log(typeof JSON.parse('13.1'));
+console.log(JSON.parse('false'));
+console.log(typeof JSON.parse('false'));
+// 원시형 값중  제이슨 문자열이 아니어도 오류없이 parse메소드가 실행됨 불리언과 숫자
+
+// console.log(JSON.parse('Kiss Carnival'));
+// console.log(JSON.parse('[2003, 2018]'));
+//특정 원시 자료형을 나타내지 않는 문자형 배열형태의 문자형은 에러발생
+}
+
+{
+    // 정규 표현식으로 대응되는 문자열 위치 확인 1 search
+    //정규 표현식이란 특정 규칙을 가진 문자열의 집합을 의미 
+    //간단히 regexp or regex라고도 부르는데, 특수문자 / 와 /를 사이에 두는 표현식을 통해 
+    // 일치하는 문자열을 찾거나 반환또는 일괄치환
+    // 자바스크립트에는 두가지 방법이 있다 string객체의 메소드를 활용하여 정규표현식을 통해 문자열을 처리하는 방법
+    const str = 'To lose your path is the way to find that path';
+
+    const  regex1 = /path/,
+            regex2 = /q /,
+            regex3 = /t/g,
+            regex4 = /t/ig;
+//g플래그를 추가하면 대상 문자열 전체에서 일치하는 모든 문자를 찾는다 모든 소문자t를 가리킴
+//ig 는 대소문자 구별없이 
+
+
+console.log(str.search(regex1));
+console.log(str.search(regex2));
+//없는것은 -1표시
+console.log(str.search(regex3));
+//search는 인덱스 가장 첫번째 값만 찾음
+console.log(str.search(regex4));            
+//인덱스 가장첫번째 대문자 t가르킴 그래서 인덱스 번호 0
+}
+
+{
+    
+    // 정규 표현식으로 대응되는 문자열 위치 확인2 match
+
+    
+}
