@@ -1066,8 +1066,10 @@ console.log(typeof JSON.parse('false'));
             regex2 = /q /,
             regex3 = /t/g,
             regex4 = /t/ig;
-//g플래그를 추가하면 대상 문자열 전체에서 일치하는 모든 문자를 찾는다 모든 소문자t를 가리킴
-//ig 는 대소문자 구별없이 
+//g플래그를 추가하면 대상 문자열의 전역범위에서 일치하는 모든 문자를 찾는다 모든 소문자t를 가리킴
+//i 는 대소문자 구분하지 않는 플래그
+//m 주로 ^와 $ 문자와 같이 비교 다중 행에서 ^와 $은 각각 문자열의 처음과 끝을 의미 m이 없으면 다중행과 관계없이 문자열의 가장 처음과 끝을 가르킴
+//y 문자열의 라스트 인덱스속성을 설정한 이후 사용가능 라스트 인덱스 지정 위치부터 표현식에 일치하는 문장 찾음
 
 
 console.log(str.search(regex1));
@@ -1079,9 +1081,49 @@ console.log(str.search(regex4));
 //인덱스 가장첫번째 대문자 t가르킴 그래서 인덱스 번호 0
 }
 
+console.clear();
 {
     
     // 정규 표현식으로 대응되는 문자열 위치 확인2 match
+const str = 'To lose your path is the way to find that path';
 
+const  sensitiveRegex = /to/,
+        ignoreAllCaseRegex = /to/gi,
+        //i 플래그 -- 대소문자 구분없이 찾음
+        findRangeRegex = /([a-f])\w+/i,
+        //[a-f]는 a부터 f사이의 문자를 찾는것 
+        // \w+는 해당문자부터 whitespace가 나타날때 까지의 단어 반환 
+        //g플래그가 없어서 첫번째 일치하는 값만 반환 대소문자 없이
+        findAllRangeRegex = /([a-f])\w+/gi;
+
+        // \w 모든단어문자 와 일치여부 확인
+        //\W 단어문자가 아닌 문자와 불일치 확인
+        // \d 임의의 숫자 0부터 9와 일치 여부
+        // \D 숫자가 아닌 모든 문자를 확인 숫자가 아닌 값만 반환하거나 true반환
+        // \s 공백 문자 일치여부
+        // \S 공백문자가 아닌 문자 확인
     
+console.log(str.match(sensitiveRegex));
+console.log(str.match(ignoreAllCaseRegex));
+console.log(str.match(findRangeRegex));
+console.log(str.match(findAllRangeRegex));
+
+}
+
+{
+    //정규 표현식으로 특정 문자의 포함 여부 확인 test
+
+    //이번에는 RegEx 객체의 함수로 정규표현식을 통해 문자열을 처리하는 방법 
+    //true false반환
+
+    const numRegExp = /[0-9]+/,
+        phoneRegExp = /\d{3}-\d{3,4}-\d{4}$/,
+        emailRegExp = /^([-_.]?[0-9a-zA-Z]{6,13})+\@([0-9a-z]+)\.([a-z]{2,3})$/i;
+
+        console.log(numRegExp.test(12345));
+        console.log(numRegExp.test('test'));
+        console.log(phoneRegExp.test('010-3003-0046'));
+        console.log(phoneRegExp.test('02-8844-1234'));
+        console.log(emailRegExp.test('test123@javascript.org'));
+        console.log(emailRegExp.test('test-javascript'));
 }
