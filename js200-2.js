@@ -1117,8 +1117,15 @@ console.log(str.match(findAllRangeRegex));
     //true false반환
 
     const numRegExp = /[0-9]+/,
+    //[]로 둘러싼 표현식은 선택 패턴 이안에 넣은 문자들에서 매칭되는 값을 확인 
+    // +한정 기호는 표현식 패턴에 하나 이상 일치하는 모든 문자열 확인
+    //따라서 0-9둥 하나라도 일치하는지 확인
         phoneRegExp = /\d{3}-\d{3,4}-\d{4}$/,
+        //{}는 표현식에서 갯수(수량)를 가르킬때 사용 \d{3}는 오직 숫자로 구성된 문자 3개  \d{3,4} 3개또는 4개
         emailRegExp = /^([-_.]?[0-9a-zA-Z]{6,13})+\@([0-9a-z]+)\.([a-z]{2,3})$/i;
+        // ()은 그룹 공백으로 단어와 단어를 구분하는 역할과 유사 
+        // 괄호로 묶으면 원하는 부분끼리만 표현식 적용됨 
+        // ^([-_.]?[0-9a-zA-Z]{6,13})+ 는 영문 대문자 소문자 숫자 필수값아닌 기호 -_.를 허용하는 표현식 6-13자
 
         console.log(numRegExp.test(12345));
         console.log(numRegExp.test('test'));
@@ -1126,4 +1133,40 @@ console.log(str.match(findAllRangeRegex));
         console.log(phoneRegExp.test('02-8844-1234'));
         console.log(emailRegExp.test('test123@javascript.org'));
         console.log(emailRegExp.test('test-javascript'));
+}
+
+{
+    //정규 표현식으로 문자열 반환 exec
+    // 정규 표현식과 일치하는 문자열을 찾아 배열로 반환 일치하는 문자열이 없으면 null
+    //
+
+    const str = 'Java is not Javascript';
+
+    const result1 = /java/ig.exec(str);
+    //대소문자 구분없이 java를 찾는 정규표현식 exec메소드 호출시 가장 첫번째 java가 반환
+    console.log(result1[0]);
+    console.log(result1.index);
+    //java가 발견된 시작 인덱스
+    console.log(result1.input);
+    //input은 원본 문자열 
+
+
+    const nums = '"1", "2", "3"';
+    const regex = /\d+/g;
+    //숫자만 찾는 정규표현식 대입
+    while (result2 = regex.exec(nums)) {
+        console.log(result2, regex.lastIndex);
+    }
+    //match와 exec메소드는 호출할때마다 일치하는 값을 찾으면 lastIndex값이 계속 업데이트됨 
+
+}
+
+{
+    //정규 표현식으로 문자열 치환하기 replace
+    // 문자열.replace(교체대상 문자열 혹은 정규식, 대체될 문자열 또는 함수)
+console.log('2018-08-03 07-23-14'.replace(,''));
+console.log('2018-08-03 07-23-14'.replace(,''));
+console.log('2018-08-03 07-23-14'.replace(,''));
+
+
 }
