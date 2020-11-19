@@ -1164,9 +1164,240 @@ console.log(str.match(findAllRangeRegex));
 {
     //정규 표현식으로 문자열 치환하기 replace
     // 문자열.replace(교체대상 문자열 혹은 정규식, 대체될 문자열 또는 함수)
-console.log('2018-08-03 07-23-14'.replace(,''));
-console.log('2018-08-03 07-23-14'.replace(,''));
-console.log('2018-08-03 07-23-14'.replace(,''));
+    //첫번째 인자에 따라 일치하는 첫번째 항목만 찾는다. 그러나 모든 문자열을 찾고 싶으면 첫번째 인자에 g플래그를 써서 찾음
+    //만일 두번째 인자로 함수를 적용할때는  일치한 문자열/ 일치한 값들/ 일치한 값의 위치/ 원본 문자열 의 매개변수 사용
+console.log('2018-08-03 07-23-14'.replace('-',':'));
+// 일치하는 첫번째 항목만 찾는다.
+console.log('2018-08-03 07-23-14'.replace(/-/g,':'));
+//모든 문자열을 찾고 싶으면 첫번째 인자에 g플래그를 써서 찾음
+console.log('2018-08-03 07-23-14'.replace(/\d/g,'9'));
+//모든 숫자를 9로 변경
+
+const littleWomen = 'Meg March, Jo March, Beth March, Amy March';
+console.log(littleWomen.replace(/\w+ March/ig, 'Mrs.$&'));
+// /+ March/ig 는 유측에 March를 두는 모든 단어를 찾는다  \w는 모든 단어문자와 일치여부 확인
+// 이걸 Mrs. $&로 바꾸면 왼쪽에 Mrs위치 일치하는 문자열을 뒤에 넣는다
 
 
+
+console.log(littleWomen.replace(/\w+ March/ig, (str, d1, d2, d3, d4, offset, s) =>{
+    let tag ='';
+    if(/Meg/.test(str)) tag = '첫째'
+    else if (/Jo/.test(str)) tag = '둘째'
+    else if (/Beth/.test(str)) tag = '셋째'
+    else if (/Amy/.test(str)) tag = '넷째'
+
+    console.log(`원작 작은 아씨들에서 ${str}는 ${tag}이다`);
+    return tag;
+
+}));
+
+//두번쨰 인자 함수 호출 매개변수 d1-4는 표현식과 일치한 값들이 전달됨
+//전달된str변수에 test메소드를 적용 문자열과 일치여부 확인 각 조건식에 맞는 값을 할당
+
+
+const name = 'March Amy'
+
+console.log(name.replace(/(March) (Amy)/, '$2 $1'));
+console.log(name.replace(/(March) (Amy)/, (str, first, second, offset, s) => {
+    console.log(`${second} is name, ${first} is first name.`);
+    return `${second} ${first}`
+}));
+
+//정규 표현식의 ()로 문자열을 ㅇ그룹화할수 있다 $1, $2 순서대로 대입
+//$n($1- $9) 은 n 번쨰 부분에 문자열을 넣는것
+
+//함수의 first 는 march second는 amy로 들어감
+}
+console.clear();
+
+{
+    //반복 가능한 객체와 반복자 이해하기
+ //반복 가능한 규약 -- 객체안의 값들을 반복할수 있도록 반복동작을 정의하는 것을 허용
+ // 우선 객체가 반복 가능하려면 객체내부에 @@ iterator메소드를 구현해야함  속성키는 반드시 Symbol.iterator 이어야하고 속성값은 매개변수가 없는 함수
+ // 그리고 이 함수는 반복자 규약을 따르는 객체를 반환
+
+//  반복자 규약== 연속된 값을 만드는 방법을 정의 next메소드를 가지고 있어야 한다 
+//이때 객체 속성키는 nest()이고 속성값은 매개변수가 없는 함수로 정의
+//함수는 value 와 done속성을 가진 객체를 반환 따라서 next메소드를 호출하면 속성키 ㅇ이름이 value 와done인 객체가 반환
+//이런 반복자 규약을 충족하는 객체를 iterator라고함
+
+const items = ['j', 'a','v','a','s','c','r','i','p','t'];
+
+//문자열을 하나씩 나눠 배열로 구성 변수 arr에 대입
+const seq = {
+    [Symbol.iterator](){
+        let i = 0;
+        //위치를 가리킬 인덱스 i변수 처음 위치값인 0 대입
+        return {
+            next() {
+                const value = items[i];
+                i++;
+                const done = i > items.length;
+                return {value, done};
+                //items배열요소를 차례대로 연속해서 처리하는 문장 i인덱스 값을 벨류에 넣음 
+                //인덱스 값i 가 items 배열요소 길이보다 긴지 확인 i값이 items보다 길면 트루 아니면 폴스반환 이를 done 에 대입
+            }
+        }
+    }
+};
+// iterable 규약에따라 Symbol.iterator 속성을 정의 이어서 매개변수를 받지 않고 객체를 바환하는 함수 작성
+
+for (let s of seq) console.log(s);
+//for of으로 하나씩 반환하여 출력
+
+const [a,b,c,...arr] = seq;
+//비구조화 할당을 통해 seq요소의 첫ㅅ번째 두번째 세번째 요소를 순서대로 abc에 대입 그외 나머지는 arr에 배열로 대입 
+
+console.log('a >>> ', a);
+console.log('b >>> ', b);
+console.log('c >>> ', c);
+console.log('arr >>> ', arr);
+
+
+}
+
+console.clear();
+{
+    //문자열 순환 for - of
+
+    // string객체는 반복가능한 객체 iterable 로써, for of문을 통해 순회하며 각 요소를 반복 실행 
+    //for of문은 순환할때 반복가능한 객체가 반환하는 반복자의 next를 호출
+    // 결과로 반환된 객체 done속성이 true가 될때까지 반복
+
+    // for(변수 of 반복 가능한 객체){
+    //     실행할 문장
+    // }
+
+const str = 'hello';
+
+for(const item of str) {
+    console.log(item);
+}
+// hello 문자열을 각 문자 콘솔로 출력
+
+const iter = str[Symbol.iterator]();
+//string객체는 반복 가능한 객체 이기 때문에 [Symbol.iterator](); 를 가지고 있다 호출시 반복자 반환
+//이 반복자의 next메소드를 호출하면서 반환된 값이 콘솔로 출력
+
+console.log(iter.next());
+console.log(iter.next());
+console.log(iter.next());
+console.log(iter.next());
+console.log(iter.next());
+console.log(iter.next());
+
+}
+
+{
+    //배열 순환하기 for of -- array 객체는 반복 가능한 객체
+
+    const products = [{name: '가방'},{name:'노트북'}];
+    
+    for (const item of products){
+        console.log(item.name);
+    }
+
+    const iter = products[Symbol.iterator]();
+    console.log(iter.next());
+    console.log(iter.next());
+    console.log(iter.next());
+}
+
+{
+    //Map 객체에 요소 추가 삭제 확인 하기 set, get, delete, has
+
+    // map은 데이터 집합체의 한 종류 키와 값을 한쌍으로 저장 중복된 키는 허용하지 않음 반복가능한 객체
+    //iterator 를 통해 map객체 내부 순환 가능
+
+    //키와 값의 쌍으로 이루어진 특징으로 Object와 유사하게 여길수도 있다.그러나 몇가지 특징이 있음
+    //map 객체의 키는 다양한 자료형 값으로 정의할수 잇다 object는 문자와 심볼 자료만 가능
+    //반복가능한 객체로 [Symbol.iterator]();이 기본적으로 정의되어있음
+
+    const map = new Map();
+
+    map.set('one',1);
+    //(키, 값)
+    map.set('two',2);
+
+console.log(map.get('one'));
+//key가 one인 요소의 값을 가져온다 get메소드에 키정보를 넣으면 해당 키에대한 요소의 값을 가져옴
+
+console.log(map.has('one'));
+//키가 one인요소 확인 불리언으로 반환
+
+map.delete('one');
+// 삭제
+
+console.log(map.has('one'));
+console.log(map.has('two'));
+
+}
+
+{
+    //map 객체의 크기 확인하기 size
+//map은 키에 어떤 종류의 자료형도 선언 가능 원시형 객체 배열 함수 등,,,,
+    const map = new Map();
+
+    map.set('one', 1);
+    map.set(2 , 'two');
+    map.set([1,2,3], 'Three Elements' );
+    map.set( {a: 'A', b: 'B'}, 'object element');//객체
+    map.set(function(){} , 'function element');
+
+    console.log(map.size);
+}
+
+{
+    //Map객체 요소 나열 -- keys values, entries
+
+    const map = new Map();
+
+    map.set('one',1);
+    map.set('two',2);
+    map.set('three',3);
+
+const keys = map.keys();
+//키정보만 모음
+const value = map.values();
+//값정보만 모음
+const entries = map.entries();
+//[키, 값]형태의 정보를 모음
+
+console.log(keys.next().value);
+console.log(value.next().value);
+console.log(entries.next().value);
+//next()는 첫번째 요소만 반환됨value속성을 호출
+
+console.log(keys);
+console.log(value);
+console.log(entries);
+//next()로 반환된 애들 제외하고 나머지 요소들을 확인
+
+}
+
+{
+    //Map객체 순환  for- of , foreach
+
+    const map = new Map();
+
+    map.set('one',1);
+    map.set('two',2);
+
+    console.log('키정보만 출력합니다');
+    for (let key of map.keys()) {
+        console.log(key);
+    }
+
+    console.log('값 정보만 출력합니다');
+    for (let value of map.values()) {
+        console.log(value);
+    }
+
+    console.log('키정보만 출력합니다');
+    for (let key of map.keys()) {
+        console.log(key);
+    }
+
+    
 }
