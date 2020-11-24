@@ -1375,6 +1375,7 @@ console.log(entries);
 //next()로 반환된 애들 제외하고 나머지 요소들을 확인
 
 }
+console.clear();
 
 {
     //Map객체 순환  for- of , foreach
@@ -1394,10 +1395,376 @@ console.log(entries);
         console.log(value);
     }
 
+    console.log('[for-of, entries]키,값 정보 동시에 출력합니다');
+    for (let [key, value] of map.entries()) {
+        console.log(`키는 ${key} 값은 ${value}`)
+    }
+
+    console.log('[for-of]키,값 정보 동시에 출력합니다');
+    for (let [key, value] of map) {
+        console.log(`키는 ${key} 값은 ${value}`)
+    }
+
+    console.log('[forEach] 키,값 정보 동시에 출력합니다');
+     map.forEach((value, key)=> {
+        console.log(`키는 ${key} 값은 ${value}`);
+
+     })
+    
+}
+console.clear();
+
+{
+    const map = new Map();
+
+    for(let num of [1,2,3,4,5]) {
+        map.set((value) => value * 2, num);
+    }
+//1 - 5 까지 값을 num 변수에 전달 
+// map에 요소 추가 키를 (value) => value * 2 함수로 정의 
+//값은 num 로 할당
+
+    for(let [func, value] of map){
+        console.log(func(value));
+    }
+
+    // 다시 순환  func 와value를 전달받음 
+    // value를 다시 인자로 넣어 func실행
+
+}
+
+{
+    //Set 객체의 값 추가 삭제 확인 add/ delete/ has
+//set은 값으로만 이루어진 데이터 구조 중복값 허용안됨
+
+    const s = new Set();
+
+    s.add('one');
+    s.add('two');
+    s.add('three');
+
+
+    console.log(s.has('one'));
+    s.delete('one');
+    console.log(s.has('one'));
+    console.log(s.has('two'));
+
+}
+
+{
+    //set 객체 크기 확인하기 size
+    const s = new Set();
+
+    s.add('one');
+    s.add(2);
+    s.add([1,2,3]);
+    s.add({a:'A', b: 'B'});
+    s.add(function(){});
+
+
+console.log(s.size);
+s.clear();
+//메소드 값 초기화
+console.log(s.size);
+
+}
+
+{
+//set 객체로 array중복요소 없애기
+//set은 중복 값을 허용하지 않음 == 중복 제거하기!
+
+const arr = ['one', 'two', 'three', 'four', 'two', 'three','one'];
+
+const s = new Set(arr);
+//인자로 arr를 넣으면 배열이 set으로 변환 --그러면서 중복값 제거됨
+console.log([...s]);
+//대괄호와 ...을 통해 set객체값들이 전개된 배열로 변환
+}
+
+{
+    //set 객체값 나열 -- keys values entries
+
+    const s = new Set();
+
+    s.add('one');
+    s.add('two');
+    s.add('three');
+
+    const keys = s.keys();
+    //set은 값의 집합이기 떄무에 키를 모으는 것이 의미가 없음--
+    //그래서 value랑 같은 값이 나옴
+    const value = s.values();
+    
+    const entries = s.entries();
+    //entries는[키, 값]형태의 정보를 모으는 것 
+    //set에는 값만 있기 떄문에 키대신 값을 전달
+
+    console.log(keys.next().value);
+    console.log(value.next().value);
+    console.log(entries.next().value);
+    //next()는 첫번째 요소만 반환됨value속성을 호출
+
+    console.log(keys);
+    console.log(value);
+    console.log(entries);
+    //next()로 반환된 애들 제외하고 나머지 요소들을 확인
+
+}
+
+{
+    //set객체 순환 for of , foreach
+    //map객체와 유사 다만 반복문을 통해 전달되는 값에서 차이가 잇음
+
+    const s = new Set();
+
+    s.add('one');
+    s.add('two');
+
+    
     console.log('키정보만 출력합니다');
-    for (let key of map.keys()) {
+    for (let key of s.keys()) {
         console.log(key);
     }
 
+    console.log('값 정보만 출력합니다');
+    for (let value of s.values()) {
+        console.log(value);
+    }
+
+    console.log('[for-of, entries]키,값 정보 동시에 출력합니다');
+    for (let [key, value] of s.entries()) {
+        console.log(`키는 ${key} 값은 ${value}`)
+    }
+
+    console.log('[for-of]키,값 정보 동시에 출력합니다');
+    for (let [key, value] of s) {
+        console.log(`키는 ${key} 값은 ${value}`)
+    }
+    //이부분이 map과 다르게 출력됨
+
+
+
+    console.log('[forEach] 키,값 정보 동시에 출력합니다');
+     s.forEach((value, key)=> {
+        console.log(`키는 ${key} 값은 ${value}`);
+
+     })
+}
+
+console.clear();
+{
+    //일정 시간후에 코드 실행하기  setTimeout
+
+    // setTimeout(실행될 함수, 지연될 시간 밀리세컨드)
+
+    const timer = {
+        run:function(){
+            if(this.t) console.log('이미 실행된 타이머가 있다');
+
+            this.t = setTimeout(function () {
+                console.log('1초뒤에 실행된다');
+            },1000);
+
+        },
+
+        cancel: function () {
+            if(this.t) clearTimeout(this.t);
+            this.t = undefined;
+        }
+
+    };
+
+    //run 속성 추가 --함수 대입
+    // 1초후 정의된 콜백함수를 통해 1초후 실행된다는 코드 실행
+    //추후 타이머 관리를 위해 작성한 셋타임 코드를 this.t에 대입
+
+    //cancel -- this.t가 유효한 경우에만 클리어타임 실햄
+
+    timer.run();
+    timer.cancel();
+    //처음 런 했지만 바로 캔슬로 취소되어서 실행 안됨
+    timer.run();
+    // 실행됨
+
+    setTimeout(()=>{
+        console.log('jsjs');
+    },0);
+console.log('200');
+//지연 시간이 0이라도 200다음에 실행스택이 쌓임 그래서 200이 먼저 출력
+}
+
+// {
+//setInterval 일정시간마다 코드 실행하기
+// 일정한 간격으로 함수가 실행됨 -- 결과값으로 id값 반환 
+// id를 clearInterval 인자에 넣으면 정지됨
+
+
+// let count = 0;
+
+// const timer = setInterval(() => {
+//     console.log(`${count++} 번째 함수 실행`);
+
+//     if (count > 5) {
+//         clearInterval(timer)
+//     }
+// },1000);
+
+// }
+
+console.clear();
+{
+    //promise 이해하기
+
+    //언젠가 완료될 일을 나타냄 완료되면 하나의 값을 결과로 반환 실패하며 정상적인 일 대신 실패이유를 반환하기도...
+
+    //promise의 상태 3가지
+    //대기중- pending --아직 결과가 없는 상태 약속을 했지만 아직 결과나 나오지 않은 상태
+    //이행됨 - fulfilled -- 비동기 처리가 성공적으로 완료되어 약속을 이행한 상태 결과로 하나의 값이 전달 resolved
+    //거부됨 - rejected -- 비동기 처리가 실패한 상태 약속이 거부되고 거절이유를 전달 rejected
+
+    //promise는 두가지 메소드를 가짐
+    //then(onFulfilled, onReject)- 약속이 완료됐을 때 호출될 함수들을 정의 첫번째 인자로 전달되는 함수는 약속이 성공적일때
+    //두번째 인자는 거절됐을때 두 전달인자의 함수들은 매개변수를 가짐 매개변수응 통해 전달
     
+    //catch(onReject) - 약속이 거부됐을때 호출될 함수 등록
+
+function promiseForHomework (mustDo){
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('doing homework');
+    
+            if(mustDo){
+                resolve({
+                    result: 'homework-result'
+                });
+            } else {
+                reject(new Error('Too lazy!'));
+            }
+    
+        },3000);
+    
+    });
+    
+};
+
+//매개변수를mustDo로 하고 이것에 의해 promise의 성공과 실패가 결정됨
+//promise객체는 생성자 함수에 new키워드로 생성 이때 계산될 코드를 담은 함수를 인자로 전달
+// resolve reject를매개변수로 가짐
+//3초후 실행되는 코드를 만듬
+//resolve함수가 호출되면 이후에then메소드에 전달된 함수의 매개변후로 전달
+//
+    
+const promiseA = promiseForHomework(true);
+console.log('promiseA created');
+//이게 먼저 출력되고 doinghomework은 3초뒤에 뜸
+//전달인자가 있기때문에 resolve가 호출됨
+
+const promiseB = promiseForHomework();
+console.log('promiseB created');
+//전달인자가 없기때문에 reject호출
+
+ promiseA.then( v => console.log(v));
+ promiseB
+    .then( v => console.log(v))
+    .catch( e => console.error(e));
+    //B는 reject를 호줄했기때문에 catch 메소드에 전달받은 에러부분만 호출
+
+
+}
+
+{
+    //promise조합하기
+
+    //promise의 then 메소드애서 새로운 비동기 코드를 실행하는 promise를 반환할수 있는데
+    //다음 then메소드는 새롭게 만들어진 promise 코드가 이행되기 전까지 호출되지 않음
+
+    function doJob (name, person){
+        return new Promise((resolve, reject)=>{
+            setTimeout(()=>{
+                if(person.stemina > 50){
+                    resolve({
+                        result: `${name} success`,
+                        loss: 30
+                    });
+                } else {
+                    reject(new Error(`${name} failed`))
+                }
+            },1000);
+        });
+    };
+
+
+    const harin = {stemina :100};
+
+    doJob('work', harin)
+    .then(v => {
+        console.log(v.result);
+        harin.stemina -= v.loss;
+        return doJob('study', harin);
+    })
+    .then(v => {
+        console.log(v.result);
+        harin.stemina -= v.loss;
+        return doJob('work', harin);
+    })
+    .then(v => {
+        console.log(v.result);
+        harin.stemina -= v.loss;
+        return doJob('study', harin);
+    })
+    //then 메소드에 전달한 콜백함수에서 study이름의 일을 수행하는 약속을 반환
+    //그럼또 반환한 결과 이행값이 나옴
+    //스테미나가 50이하까지 차감되면 then은끝나고 거부 catch메소드가 실행됨 에러 
+.catch(e => console.error(e));
+
+
+}
+
+{
+    //async 이해하기
+
+    //async함수는 함수안에서 await구문과 함께 비동기 작업을 제어
+    //await은 반드시 async함수안에서만 유효
+
+    //처음 async 함수가 호출되어  await 키워드가 있는 비동기 작업(프로미스 객체)이 실행되면 해당 비동기 함수는
+    // 이벤트 루프를 통해 비동기로 작업을 처리
+    //그동안 async함수는 이러한 비동기 작업이 완료될때까지 일시중지 상태로 비동기 작업(프로미스 객체)을 해결을 기다림
+    //완료되면 다시 async함수 실행 결과 반환
+
+    function doJob (name, person){
+        return new Promise((resolve, reject)=>{
+            setTimeout(()=>{
+                if(person.stemina > 50){
+                    person.stemina -= 30;
+                    resolve({
+                        result: `${name} success`,
+                    });
+                } else {
+                    reject(new Error(`${name} failed`));
+                }
+            },1000);
+        });
+    };
+
+
+    const harin = {stemina :100};
+
+    const execute = async function(){
+        try {
+            //비동기 로직 앞에 await키워드 추가 비동기 작업이 끝날때까지 기다렿다가 다음문장 코드 처리
+            let v = await doJob('work', harin);
+            console.log(v.result);
+            v = await doJob('study', harin);
+            console.log(v.result);
+            v = await doJob('work', harin);
+            console.log(v.result);
+            v = await doJob('study', harin);
+            console.log(v.result);
+        } catch(e){
+            console.log(e);
+        }
+      
+    }
+    execute();
+
 }
