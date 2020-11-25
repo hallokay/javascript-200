@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript200</title>
+</head>
+<body>
+
+    <h1>DOM 이해하기</h1>
+
+    <div id="div1">hello DOM</div>
+    <ul>
+        <li>list item1</li>
+        <li>list item2</li>
+    </ul>
+    
+    <script>
+           //문서 객체 모델 이해하기
+
+    // 문서 객체모델 DOM 은 html 과 xml을 위한 프로그래밍 인터페이스 
+    const div1El = document.getElementById('div1');
+    console.log(div1El.innerHTML);
+//아이디를 인자로 전달받아 문서에서 찾아 반환 디브태그를 자바스크립트에서 DOM객체로 표현되고 이 객체가 노드이다
+//HTML 문서 태그들은 자스에서 노드가 된다 노드는 여러 하위타입을 가진다 각 타입은 상수로 정의됨
+
+// ELEMENT_NODE = 1 (예:<body> <a><p><script><style><html><h1>)
+// ATTRIBUTE_NODE = 2(예: class='hello')
+// TEXT_NODE = 3(html 문서의 텍스트들)
+//
+
+
+
+
+console.log(div1El.nodeType);
+//
+console.log(div1El.nodeType === Node.ELEMENT_NODE);
+
+console.log(div1El.constructor);
+console.log(div1El instanceof HTMLDivElement);
+console.log(div1El instanceof HTMLElement);
+console.log(div1El instanceof Element);
+console.log(div1El instanceof Node);
+console.log(Element.prototype);
+console.log(div1El.tagName);
+
+
+    </script>
+    
+    <!-- <script src="js200.js"></script> -->
+    <!-- <script type="module" src="module.js"></script> -->
+    <script src="js200-3.js"></script>
+   
+</body>
+
+
+</html>
