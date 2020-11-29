@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>네비게이션 예제</title>
+</head>
+<body>
+
+    <h1>국내 여행지</h1>
+
+    
+    <ul>
+        <li>서울</li>
+        <!-- <li>수원</li> -->
+        <li>제주</li>
+        <li>속초</li>
+        <li>부산</li>
+
+    </ul>
+    
+    <script>
+        const bodyEl = document.body,
+            bodyElChildren = bodyEl.children;
+            console.log(bodyElChildren);
+            //모든 노드를 가져오는 것이 아니라 요소를 가져올 뿐.. HTMLCollection(3) [h1, ul, script]
+            //ul 안에 li는 안가져옴
+
+        const cityList = bodyElChildren[1];
+        
+        console.log(cityList.children.length);
+        const item2 = cityList.children.item(1);
+        console.log(item2);
+        //ul의 자식요소 개수를출력 item메소드로 2번쨰 li요소출력
+
+        console.log(item2.previousElementSibling);
+        //제주를 기준으로 이전 요소 출력 서울
+        console.log(item2.previousSibling);
+        // previousSibling은 코드에서 개행을 했기때문에 텍스트 노드가 된다
+        console.log(item2.previousSibling.previousSibling);
+        //노드로 하면 이전 노드는 주석처리한 노드 수원이 된다
+        
+
+        console.log(cityList.childNodes);
+        //ul의 하위노드들을 출력했을때 각 요소중간에 텍스트 노드가 들어있는 것을 확인할수 있다
+
+        console.log(item2.firstChild);
+        console.log(item2.lastChild);
+        //li에는 제주의 텍스트 노드만 있어 제주만 찍힘
+        console.log(item2.parentElement);
+        //부모요소는 ul
+
+
+    </script>
+    
+
+</body>
+
+
+</html>
