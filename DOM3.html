@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript200</title>
+</head>
+<body>
+
+    <h1>DOM 속성과 태그 속성 이해하기</h1>
+    <p>태그의 속성과 DOM의 속성은 한글로 모두 속성이지만 태그의 어트리뷰트와 돔의 프로퍼티로 부른다
+        대다수의 어트리뷰트들은 프로퍼티와 1대 1로 대응 하지만 어떤 어트리뷰트는 프로퍼티로는 다른 이름으로 존재하고
+        어떠한 프로퍼티는 값을 바꾸면 어트리뷰트에 반영되지 않는다
+    </p>
+
+    <div id="div1" class="div-class">div 태그</div>
+    <input id="input1" type="text" value="jay">
+    
+    <script>
+        const div1El = document.getElementById('div1'),
+            input1 = document.getElementById('input1');
+
+        console.log(div1El.hasAttribute('id'));
+        console.log(div1El.getAttribute('id'));
+        console.log(div1El.id);
+        //태그이 id어트리뷰트의 값과 요소의id프로퍼티 값이 같다
+
+        div1El.removeAttribute('id');
+        console.log(div1El.id);
+        //id의 어트리뷰트를 제거하면 id프로퍼티도 빈값으로 변경됨
+        div1El.setAttribute('id', 'new-id');
+        console.log(div1El.id);
+        //새로운 어트리뷰트를 메소드로 정의하면 id프로퍼티 또한 같이 변경됨
+
+        div1El.id = 'new-id-2';
+        console.log(div1El.getAttribute('id'));
+        //이번에는 프로퍼티 값을 변경 해본다 그럼 어트리뷰트의 값도 같이 변경 동기회됨
+
+        console.log(div1El.getAttribute('class'));
+        console.log(div1El.class);
+        console.log(div1El.className);
+        //class 어트리뷰트 확인  프로퍼티는 class로 존재하지 않고 className으로 존재
+
+        div1El.setAttribute('class', 'new-class');
+        console.log(div1El.className);
+        div1El.className = 'new-div-class-2';
+        console.log(div1El.getAttribute('class'));
+        //class의 어트리뷰트 를 변경하면 className 프로퍼티 값이 변경됨
+        // 반대로 className프로퍼티를 변경하면 어트립트가 바뀜
+        //class는 어트리뷰트랑 className 프로퍼티랑 동기화됨
+
+        const valueAttr = input1.getAttribute('value');
+        console.log(valueAttr);
+        console.log(input1.value);
+        //value어트리뷰트와 프로퍼티가 처음에는 같다
+        input1.value = 'jay2';
+        console.log(input1.getAttribute('value'));
+        //하지만 프로퍼티의 값을 변경해도 어트리뷰트는 변하지 않는다
+        //즉 value는 프로퍼티 값과 어트리뷰트의 값이 항상 같지 않다
+
+    </script>
+    
+   
+</body>
+
+
+</html>

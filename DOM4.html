@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript200</title>
+</head>
+<body>
+
+    <h1>DOM 생성과 수정 삭제</h1>
+
+    <h2>상품 목록</h2>
+    <ul id="product_list">
+
+    </ul>
+    
+    <script>
+        const products = [
+            {id: 'p-01', name: '상품1'},
+            {id: 'p-02', name: '상품2'},
+            {id: 'p-03', name: '상품3'}
+
+        ]
+        //상품객체의 배열을 정의 데이터에 의해 돔을 생성
+
+        const productListEl = document.getElementById('product_list');
+        products
+        .map(product => {
+            const newEl = document.createElement('li');
+            newEl.id = product.id;
+            newEl.innerText = product.name;
+            return newEl;
+        })
+        //상품 객체를 map메소드를 통해 각 상품 객체를 li로 변환 상품의 아이디는 li의 아이디 내용은 상품이름으로 한다
+        //그후 다시 li로 넣기 위해 반환한다
+        .forEach( productEl => {
+            productListEl.appendChild('productEl');
+        });
+        //위에서 반환된 내용들은 다시 각각의 productEl로 받아와서 프로덕트리스트에 자식요소로 들어간다
+
+        setTimeout(() => {
+            const secondEl = document.querySelector('ul li:nth-child(2)');
+            secondEl.remove();
+        },1000);
+
+        productListEl.after('<div>잘못된 사용</div>');
+        //after메소드를 통해 ul다음에 노드 추가 문자열을 전달하면 단순히 텍스트 노드가 추가됨 
+        //정상적인 노드를 추가하려면 노드 객체가 전달되어야함
+
+        productListEl.insertAdjacentHTML('afterend', "<p>추가된 문단</p>");
+        //insertAdjacentHTML는 주어진 html텍스트를 파싱하여 만들어진 노드 객체를 주어진 위치로 추가 
+        //afterend는 요소 다음으로 추가합니다
+
+
+            //  *beforebegin
+
+        // <ul id="product_list">       == productList.insertAdjacentHTML에서
+            
+            //* afterbegin
+
+            // <li></li>
+            // <li></li>
+
+            //* beforeend
+
+        // </ul>
+
+        // * afterend
+    </script>
+    
+   
+</body>
+
+
+</html>
