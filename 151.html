@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript200</title>
+</head>
+<body>
+
+    <h1>html 폼 활용</h1>
+
+    <form action="" name="order">
+        <fieldset name="userInfo">
+            <legend>주문자 정보</legend>
+            이름: <input name="name" type="text">
+            전화번호: <input name="tel" type="tel">
+        </fieldset>
+
+        <fieldset name="productInfo">
+            <legend>상품 정보</legend>
+            상품명: <input name="productName" type="text">
+            색상: 
+                <select name="color" id="">
+                    <option value="black">검은색</option>
+                    <option value="yellow">노란색</option>
+
+                </select>
+        </fieldset>
+        <button id="btn1" type="button"> button 처리</button>
+        <button type="submit"> submit 제출 </button>
+
+    </form>
+    
+    <script>
+
+        const orderForm = document.forms.order,
+            userField = orderForm.elements.userInfo,
+            productField = orderForm.elements.productInfo;
+            //form 요소는 name어트리뷰트 값을 키로 하여 document.forms객체를 통해 가져올수 있다
+            //form요소의 자식요소들은 name어트리뷰트 값을 키로하여 elements속성을 통해 가져올수 있다
+
+        document.getElementById('btn1')
+            .addEventListener('click', e => {
+                const {name, tel} = userField.elements;
+                console.log(`${name.value} 사용자가 (${tel.value})로 주문합니다.`);
+            });
+            //버튼처리를 클릭하면 fieldset 요소의 자식 input요소들의 값을 콘솔에 출력
+            //자식 인풋 요소를 name 어트리뷰트 값을 키로하여 elements속성을 통해 가져온다
+
+        orderForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const {productName, color} = productField.elements;
+            console.log(`${productName.value} 상품 (${color.value})색 으로 주문합니다.`);
+            //폼요소는 섭밋버튼을 클릭하면 submit이벤트를 발생시킴
+            //해당 폼의 인풋 정보를 이용해 주어진 URL에 HTTP요청을 보낸다
+            //기본적으로 HTTP GET요청을 보내고 서버의 응답에 따라 화면을 갱신
+            //이런 기본 로직을 막고 싶으면 preventDefault메소드 호출
+            
+
+            orderForm.method = 'GET';
+            orderForm.submit();
+
+            //폼요소의 method속성을 변경하고 submit을 호출하면 변경된 메소드로 HTTP요청을 보낼수 잇다
+            //HTTP GET을 요청을 보내면 인풋 요소들의 name과 value어트리뷰트 들은 조합하여
+            // HTTP 질의 문자열을 생성 "name=값&tel=값&productName=값&color=값"
+        });
+
+    </script>
+    
+   
+</body>
+
+
+</html>

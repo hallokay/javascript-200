@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript200</title>
+
+    <style>
+        .hero {
+            height: 90vh;
+            background: dodgerblue;
+        }
+        .articles {
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <h3>스크롤 처리 네브가 걸리는 효과</h3>
+
+    <section class="hero">
+        <h1>스크롤을 아래로 내려봐</h1>
+
+    </section>
+
+    <nav>
+        <a href="https://javascript-200.com"> js200제</a>
+    </nav>
+    <section class="articles">
+        <p>
+            Lorem ipsum dolor sit amet consectetur, 
+            adipisicing elit. Nihil nulla amet voluptas sapiente 
+            voluptatum deserunt! Amet ipsa asperiores in maxime, 
+            dignissimos architecto cumque nesciunt libero deleniti, 
+            odit facere consequatur impedit.
+            Lorem ipsum dolor sit amet consectetur, 
+            adipisicing elit. Nihil nulla amet voluptas sapiente 
+            voluptatum deserunt! Amet ipsa asperiores in maxime, 
+            dignissimos architecto cumque nesciunt libero deleniti, 
+            odit facere consequatur impedit.
+            Lorem ipsum dolor sit amet consectetur, 
+            adipisicing elit. Nihil nulla amet voluptas sapiente 
+            voluptatum deserunt! Amet ipsa asperiores in maxime, 
+            dignissimos architecto cumque nesciunt libero deleniti, 
+            odit facere consequatur impedit.
+        </p>
+    </section>
+    <script>
+      const nav = document.querySelector('nav');
+      const navTopOffset = nav.offsetTop;
+      //offsetTop속성으로 부모로 부터 얼마나 떨어져 있는지 알수 있다 
+      //offsetLeft는 브라우저의 좌측으로 부터 얼마나 떨어져있는지
+
+      window.addEventListener('scroll', e => {
+          if(window.pageYOffset >= navTopOffset){
+            nav.style.position = 'fixed',
+            nav.style.top = 0,
+            nav.style.left = 0,
+            nav.style.right = 0
+          } else {
+            nav.style.position = '',
+            nav.style.top = 0
+          }
+      });
+      //브라우저 윈도우 화면을 스크롤 했을때 이벤트 리스너 
+      //만약 내가 스크롤한 양이 네비의 위치로부터 떨어진 양과 같거나 많아지면 
+      //네비의 포지션이 고정된다 그렇지않으면 값 없음
+
+      //스크롤시 브라우저 상단으로부터의 차이--pageYoffst가 네비요소의 브라우저 상단의 차이 offsetTop보다 많을때 네비가 고정
+
+
+    </script>
+    
+   
+</body>
+
+
+</html>

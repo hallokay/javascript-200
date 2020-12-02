@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript200</title>
+
+    <style>
+        #prevent {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <h1>DOM 이벤트 흐름 이해 이벤트 플로우</h1>
+
+    <div id="element1" class="box">
+        <div id="element2" class="box2">버블링</div>
+    </div>
+
+    <div id="element3" class="box">
+        <div id="element4" class="box2">캡처링</div>
+    </div>
+    <script>
+        element1.addEventListener('click', e => console.log('요소 1 클릭'));
+        element2.addEventListener('click', e => console.log('요소 2 클릭'));
+
+        element3.addEventListener('click', e => console.log('요소 3 클릭'), true);
+        element4.addEventListener('click', e => console.log('요소 4 클릭'));
+
+
+    </script>
+
+
+
+
+
+
+    <h1>DOM 이벤트 전파 제어</h1>
+
+    <p>
+        일반적인 글 
+        <span id="prevent">이벤트 막은글</span>
+        <br>
+        일반적인 글2
+    </p>
+    <script>
+        const normalPEl = document.querySelector('p');
+        const eventPreventedEl = document.querySelector('#prevent');
+        normalPEl.addEventListener('contextmenu', function(){
+            console.log('contextmenu 호출');
+        });
+        //contextmenu --마우스 오른쪽 클릭하면 나오는 메뉴창호출되는 이벤트
+        eventPreventedEl.addEventListener('contextmenu', function (event) {
+            console.log('이벤트 막은 글 클릭');
+            event.stopPropagation();
+            //이벤트를 상위로 전파 (버블링)되지 않도록 한다 그래서 부모 p태그에 등록된 이벤트리스너가 호출되지 않는다
+            event.preventDefault();
+            //브라우저가 정의한 기본행위를 막는다.
+        });
+
+
+    </script>
+    
+   
+</body>
+
+
+</html>
