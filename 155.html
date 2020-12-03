@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript200</title>
+</head>
+<body>
+
+    <h1>브라우저 로컬 스토리지 사용</h1>
+ 
+    <script>
+     class Cart {
+         constructor () {
+             this._key = "app-cart";
+             const itemString = localStorage.getItem(this._key);
+             if(itemString){
+                 this.items = JSON.parse(itemString);
+             } else {
+                 this.item = [];
+             }
+         }
+     
+     //카트 클래스를 선언 생성자 함수에서 localStorage를 이용하여 주어진 키에 해당하는 문자열을 가지고 온다
+     //getItem 메소드는 특정 키에 해당하는 문자열을 가지고 온다
+     //가져온 문자열은 json형식이기 떄문에 json.parse메소드를 이용하며 객체화한다 그결과를 items에 대입
+     //가져온 문자열이 없을 경우 카트가 초기화 된걸로 간주하고 빈객체를 items속성에 대입
+
+    
+     addItem(item) {
+      this.items.push(item);
+      const itemString = JSON.stringify(this.items);
+      localStorage.setItem(this._key, itemString);
+      this.items = item;
+    }
+
+}
+     //카트 클래스에 addItem 메소드 정의 주어진 객체를 items배열에 추가하고 해당 배열을 JSON.stringify를 이용하여
+     //제이슨 문자열로 만든다 그리고 localStorage의, setItem메소드를 이용하여 주어진 키에 해다하는 제이슨 문자열 추가ㅣ
+     //로컬 스토리지에는 app=cart키로 해당 json문자열이 저장됨 
+
+     const cart = new Cart();
+     console.log(cart.items);
+     cart.addItem({name: '노트북', price: 2000000});
+
+
+    </script>
+    
+   
+</body>
+
+
+</html>

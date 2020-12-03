@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript200</title>
+    <style>
+
+.user-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.user-list li {
+  list-style: none;
+  text-align: center;
+  border-radius: 100%;
+  padding: 10px;
+  border: 1px solid black;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  line-height: 100px;
+}
+.user-list li:hover {
+  background-color: deepskyblue;
+}
+.user-list li.selected {
+  background-color: royalblue;
+}
+    </style>
+</head>
+<body>
+
+    <h1>브라우저 히스토리 이해</h1>
+
+    <ul class="user-list">
+        <li data-name="jay">jay</li>
+        <li data-name="boo">boo</li>
+        <li data-name="harin">harin</li>
+    </ul>
+ 
+    <script>
+     
+        const userList = document.querySelector('.user-list');
+
+        userList.addEventListener('click', e => {
+            const liEl = e.target;
+            if(liEl.tagName === 'LI'){
+                const name = liEl.dataset.name;
+                select(userList, liEl);
+                //셀렉트 함수를 여기에 연결 해주는것
+                history.pushState(name,null,name);
+
+        // history.pushState(state객체, title문자열, url문자열)
+        //--state객체  자스 객체로 현재 히스토리에 해당하는 상태를 history.state 로 가져올수 잇음
+        //--title 문자열 브라우져 상단 타이틀을 변경
+        //-- url문자열 새로운 히스토리 url
+
+            }
+        });
+        //클릭 이벤트 클릭시 대상을 liEl로 담고 그것의 태그네임이 li일때 
+        //li의 dataset속성으로 name을 가져와서 name에 할당
+        //select함수 호출 클릭한 대상 li요소에 selected클래스 추가 
+        //pushState함수로 히스토리 추가 pushState메소드를 호출하면 새로운 히스토리 추가 전달된 인자에 의해 
+        //url변경
+
+     
+
+        window.addEventListener('popstate', function(e){
+            const selectedUser = document
+            .querySelector(`.user-list [data-name="${e.state}"]`);
+            select(userList, selectedUser);
+            // 셀렉트 함수 여기에 연결
+        });
+        //브라우저 상단의 뒤로가기 또는 앞으로 가기를 누를 떄마다 브라우져 히스토리가 되고 popstate이벤트 발생
+        // history.back()  history.go()를해도 이벤트 발생됨 하지만 history.pushState에는 popstate가 작동하지 않음
+        // history.back()를 사용하면 브라우저 상단의 뒤로가기를 한거같이 이전 스토리로 돌아감
+        // 앞으로 가는 메소드는  history.forward()
+        // history.go(숫자)는 히스토리의 특정 지점으로 이동 history.go(-1)은 이전으로  history.go(1)앞으로
+        //두단계를 갈경우  history.go(-2)
+
+
+
+
+        function select (ulEl, liEl) {
+            Array.from(ulEl.children)
+                .forEach(v => v.classList.remove('selected'));
+                if(liEl) liEl.classList.add('selected');
+        }
+        //아이템 요소를 선택하는 함수 ul의 자식요소로부터 배열을 가져와서 각각을 돌면서 클래스 네임 selected지운다
+        //만약 liEl라면 (클릭한 곳이 선택되면) selected를 추가한다
+
+    </script>
+    
+   
+</body>
+
+
+</html>
