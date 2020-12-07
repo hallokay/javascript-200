@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript200</title>
+</head>
+<body>
+
+    <h1>웹 워커로 백그라운드 코드 실행</h1>
+
+ <p>
+     웹워커는 무거운 작업의 스크립트를 백그라운드에서 동작 할 수 있게 합니다
+     작업을 수행하는 최소한의 단위를 스레드라고 하는데 사용자의 입력이나 화면의 렌더링 등을
+     다루는 메인 스레드를 방해하지 않고 별도의 스레드에서 스크립트를 실행하게 하는 것이 
+     웹워커
+ </p>
+
+    <div>
+        <input type="number" id="number">
+        <button id="start-btn">피보나치 수열 계산 시작</button>
+    </div>
+
+    <div id="result"></div>
+    <script>
+     const result = document.getElementById('result');
+     let isCalculation = false;
+     //현재 계산 중인 여부를 나타냄
+     if(window.Worker) {
+        const fibonacciWorker = new Worker('fibonacci.js');
+        //웹 워커는 워커 생성자 함수로 생성할 수 있다 
+        //이떄 실행할 자스 파일의 경로를 인자로 한다
+
+        document.getElementById('start-btn')
+            .addEventListener('click', e => {
+                if(isCalculation) {
+                    return;
+                }
+                const value = document.getElementById('number').value;
+                fibonacciWorker.postMessage({num: value});
+                result.innerHTML = '계산중...';
+                isCalculation = true;
+            });
+            //시작 버튼을 누르면 id가 number인 인풋요소에 입력한 숫자 값을 피보나치 워커에 
+            //postMessage를 이용하여 전달한다
+            //메인 스크립트와 워커 스크립트 간으 메세지 전달은 이벤트 방식으로 동작해서 한쪽에서 postMessage메소드로
+            //메세지를 전달하면 상대편의 onmessage에 등록된 콜백함수를 통해 전달된 메세지를 받을수 있다
+
+        fibonacciWorker.onmessage = function(e) {
+            result.innerHTML = e.data;
+            isCalculation = false;
+        };
+        //워커스크립트에서 postMessage로 데이터를 전달하면 워커 인스턴스의 onmessage속성에 등록한 콜백 함수가 호출됨
+        //콜백 함수는 이벤트가 인자로 전달되는데 이벤트의 data를 통해 워커 스크립트 에서 전달한 메세지를 받을수 있다
+        // 여기서는 피보나치 수열의 계산된 결과가 data에 담겨 있다
+
+
+        fibonacciWorker.onerror = function(error) {
+            console.error('에러발생', error.message);
+            result.innerHTML = error.message;
+            isCalculation = false;
+        };
+     }
+     //워커 스크립트에서 에러가 발생하면 onerror콜백을 통해 에러를 잡을수 잇다
+
+
+    </script>
+    
+   
+</body>
+
+
+</html>
