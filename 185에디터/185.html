@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript200</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>텍스트 에디터</h1>
+
+ <div class="toolbar">
+     <a href="" data-command="h1">h1</a>
+     <a href="" data-command="h2">h2</a>
+     <a href="" data-command="h3">h3</a>
+     <a href="" data-command="p" style="margin-left: 8px;">p</a>
+
+     <a href="" data-command="bold"><i class="fa fa-bold"></i></a>
+     <a href="" data-command="italic"><i class="fa fa-italic"></i></a>
+     <a href="" data-command="underline"><i class="fa fa-underline"></i></a>
+     <a href="" data-command="strikeThrough" style="margin-left: 8px;"><i class="fa fa-strikethrough"></i></a>
+
+     <a href="" data-command="justifyLeft"><i class="fa fa-align-left"></i></a>
+     <a href="" data-command="justifyCenter"><i class="fa fa-align-center"></i></a>
+     <a href="" data-command="justifyRight"><i class="fa fa-align-right"></i></a>
+     <a href="" data-command="justifyFull" style="margin-left: 8px;"><i class="fa fa-align-justify"></i></a>
+ </div>
+
+ <div class="editor" contenteditable="true">
+     <h1>제목</h1>
+     <p>간단한 에디터</p>
+ </div>
+    <script>
+     document.querySelectorAll('.toolbar a')
+        .forEach(aEl => aEl.addEventListener('click', function(e){
+            e.preventDefault();
+            const command = aEl.dataset.command;
+            //툴바의 모든 영역 선택
+            //a의 각각으로 받아와서 클릭 이벤트를 준다 
+            //e로 기본행위 막는다
+            //각 a 태그의 data-commend속성값을 dataset객체의 commend속성을 통해 가져온다
+
+            if(command == 'h1' || command == 'h2' ||command == 'h3' || command == 'p') {
+                document.execCommand('formatBlock', false, command);
+            } else {
+                document.execCommand(command);
+            }
+            //만약 클릭한 a가 h1 h2 h3 p(html 의 블록 래벨요소) 중 하나라면 execCommand에 formatBlock 명령 전달
+            //execCommand메소드는 contentEditable속성이 적용된 현재 활성화된 요소에 명령을 전달한다
+            //document.execCommand('명령이름', 기본사용자UI를 보여주는지 여부 불리언, 특정 명령에 필요한 값);
+            //formatBlock 명령은 현재 선택된 문장을 감싸고 있는 요소를 마지막 인자값으로 전달한 블록레벨태그명으로 변경
+            //블록 레벨 요소명이 아닌 커멘드들은 document.execCommand의 명령 이름으로 전달하여 에디터에 선택한 문장들에
+            //해당 명령을 전달
+
+
+        }));
+
+
+    </script>
+    
+   
+</body>
+
+
+</html>
