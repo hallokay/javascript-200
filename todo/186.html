@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>javascript200</title>
+</head>
+<body>
+
+    <h1>할일 앱 만들기</h1>
+
+    <!-- <script src="models.js"></script> -->
+    <script>
+     const todos = new TodoManager();
+     todos.addTodo('공부');
+     todos.addTodo('운동');
+     //할일 추가
+     console.log(todos.getList());
+     //목록을 출력
+     console.log(todos.leftTodoCount);
+     todos.getList()[0].toggle()
+     //할일 완료 여부를 토글한다
+     console.log(todos.leftTodoCount);
+
+
+    </script>
+    
+   
+</body>
+
+
+</html>
